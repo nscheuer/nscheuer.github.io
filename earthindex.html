@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/postprocessing/RenderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/shaders/LuminosityHighPassShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/shaders/CopyShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/postprocessing/ShaderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/postprocessing/TexturePass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/postprocessing/UnrealBloomPass.js"></script>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Welcome to Niclas Scheuer's portfolio. Find links to my Polyboxes, projects, and more info about me.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="icon" href="assets/images/mylogo/logogif.gif", type="image/gif">
+    <link rel="icon" href="assets/images/mylogo/mylogonew.ico", type="image/x-icon">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <title>Nic</title>
+</head>
+<body>
+    <div id="splash-screen"></div>
+    <div id="container"></div>
+    <div id="textContainer">
+        <span id="text"></span>
+        <a id="me" href="https://n.ethz.ch/~nscheuer/me"></a>
+    </div>
+    <div id="buttonContainer">
+        <button onclick="window.location.href='https://polybox.ethz.ch/index.php/s/uPKuAXhmn0hCI6t';">
+            <img id ="logo" src="assets/images/otherlogos/polyboxlogo.png" alt="Logo"> CS1-Polybox
+        </button>
+        <button onclick="window.location.href='https://polybox.ethz.ch/index.php/s/g6I5gVB74OWlO2J';">
+            <img id ="logo" src="assets/images/otherlogos/polyboxlogo.png" alt="Logo"> CS2-Polybox
+        </button>
+        <button onclick="window.location.href='https://github.com/nic2703';">
+            <img id ="logo" src="assets/images/otherlogos/githublogo.png" alt="Logo"> GitHub
+        </button>
+        <button onclick="window.location.href='https://www.linkedin.com/in/n-scheuer/';">
+            <img id ="logo" src="assets/images/otherlogos/linkedinlogo.webp" alt="Logo"> LinkedIn
+        </button>
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            var splashScreen = document.getElementById('splash-screen');
+            splashScreen.style.display = 'none'; // Hide the splash screen
+        });
+    </script>    
+
+    <script type="module" src="assets/js/10lensflare.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const textContainer = document.getElementById('textContainer');
+            const textElement = document.getElementById('text');
+            const linkElement = document.getElementById('me');
+            const text = "I'm Nic";
+            let index = 0;
+
+            function type() {
+                if (index < text.length) {
+                    textElement.innerHTML += text.charAt(index);
+                    index++;
+                    setTimeout(type, 100); // Adjust the typing speed (milliseconds)
+                } else {
+                    textElement.innerHTML = textElement.innerHTML.replace('Nic', "<a href='./pages/personal.html', style='color:lightblue;'>Nic</a>");
+                }
+            }
+
+            type();
+        });
+    </script>
+
+</body>
+</html>

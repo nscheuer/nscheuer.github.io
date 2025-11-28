@@ -1,0 +1,2 @@
+<li><a href="private">Gesch&uuml;tzter Bereich</a> (Benutzername und Passwort erforderlich)</li>
+<li><a href="download">Download Bereich</a></li>

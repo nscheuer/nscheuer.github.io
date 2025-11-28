@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <title>Niclas Scheuer</title>
+  <style>
+    :root {
+      --bg: #0b0d10;
+      --fg: #e5e7eb;
+      --muted: #a1a1aa;
+      --link: #93c5fd;
+      --line: #1f2937;
+      --card: #0f1318;
+      --cardBorder: #1b2330;
+      --shadow: rgba(0,0,0,0.35);
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #ffffff;
+        --fg: #0b0d10;
+        --muted: #475569;
+        --link: #1d4ed8;
+        --line: #e5e7eb;
+        --card: #ffffff;
+        --cardBorder: #e5e7eb;
+        --shadow: rgba(0,0,0,0.08);
+      }
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--fg);
+      margin: 0;
+      padding: 0;
+      font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+            Ubuntu, Cantarell, "Helvetica Neue", Arial, "Apple Color Emoji",
+            "Segoe UI Emoji", "Segoe UI Symbol";
+      text-rendering: optimizeLegibility;
+    }
+
+    .wrap {
+      max-width: 950px;
+      margin: 40px auto;
+      padding: 0 18px;
+    }
+
+    .header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 28px;
+    }
+
+    h1 {
+      margin: 0 0 6px 0;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      font-size: clamp(28px, 5vw, 56px);
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      font-size: clamp(16px, 2.5vw, 22px);
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .affiliations a {
+      color: var(--link);
+      text-decoration: none;
+      border-bottom: 2px solid currentColor;
+      padding-bottom: 2px;
+    }
+    .affiliations a:hover { opacity: 0.9; }
+
+    .avatar {
+      width: clamp(120px, 22vw, 220px);
+      height: clamp(120px, 22vw, 220px);
+      border-radius: 50%;
+      object-fit: cover;
+      filter: saturate(1.05);
+      box-shadow: 0 8px 24px var(--shadow);
+    }
+
+    hr {
+      border: none;
+      height: 1px;
+      background: var(--line);
+      margin: 26px auto;
+      max-width: 650px; /* short horizontal line */
+    }
+
+    .intro {
+      max-width: 75ch;
+      margin-left: 2rem;         /* indented main paragraph */
+      font-size: clamp(16px, 2.1vw, 19px);
+    }
+
+    .links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 18px 0;
+    }
+    .links a {
+      color: var(--link);
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 2px;
+    }
+    .links a:hover { border-color: currentColor; }
+
+    /* Projects section */
+    .projects {
+      margin-top: 34px;
+    }
+    .projects h2 {
+      font-size: clamp(20px, 3vw, 28px);
+      margin: 0 0 12px 0;
+      letter-spacing: .2px;
+    }
+
+    .project {
+      background: var(--card);
+      border: 1px solid var(--cardBorder);
+      border-radius: 16px;
+      box-shadow: 0 8px 20px var(--shadow);
+      padding: 14px 16px;
+      margin: 14px 0;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      transition: transform .06s ease, box-shadow .12s ease, border-color .12s ease;
+    }
+    .project:hover { transform: translateY(-1px); }
+    .project:focus-within, .project:focus-visible { outline: 2px solid var(--link); }
+
+    .project .meta {
+      min-width: 0; /* enable text truncation */
+    }
+    .project .title {
+      font-weight: 650;
+      font-size: 1.05rem;
+      margin: 0 0 4px 0;
+    }
+    .project .short {
+      color: var(--muted);
+      margin: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .project img.thumb {
+      width: min(220px, 26vw);
+      height: 120px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid var(--cardBorder);
+    }
+
+    .project .expand {
+      grid-column: 1 / -1;
+      display: none;
+      margin-top: 8px;
+      color: var(--fg);
+    }
+    .project.open .expand { display: block; }
+
+    .project.open .short {
+      white-space: normal;
+      overflow: visible;
+      text-overflow: clip; /* or 'unset' */
+    }
+
+    .project .expand .long {
+      margin-top: 6px;
+      color: var(--fg);
+    }
+
+    .toggle-button {
+      position: absolute;
+      left: -9999px; /* purely for a11y (keyboard/ARIA) */
+    }
+
+    @media (max-width: 720px) {
+      .header { grid-template-columns: 1fr; }
+      .avatar { justify-self: start; }
+      .intro { margin-left: 0.75rem; }
+      .project { grid-template-columns: 1fr; }
+      .project img.thumb { width: 100%; height: 180px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="header">
+      <div>
+        <h1>Niclas Scheuer</h1>
+        <div class="subtitle">Master's student in Mechanical Engineering (Robotics &amp; Control)</div>
+        <div class="affiliations">
+          <a href="https://www.mit.edu/" rel="noopener">MIT</a>
+          &nbsp;&nbsp;·&nbsp;&nbsp;
+          <a href="https://ethz.ch/en.html" rel="noopener">ETH Zürich</a>
+        </div>
+      </div>
+      <img class="avatar" src="pictures/me.webp" alt="Niclas Scheuer" loading="lazy" decoding="async" fetchpriority="high">
+    </section>
+
+    <hr>
+
+    <p class="intro">
+      I am a mechanical engineering student at ETH Zürich, specializing in control systems and robotics with a strong interest in space technology. I enjoy bridging the gap between theory and practice; from building and validating 6-DOF simulation models and autonomous control pipelines to designing hybrid locomotion systems for robots. I enjoy tackling multidisciplinary challenges at the intersection of control, mechatronics, and software, and I am particularly motivated by applications in aerospace and next-generation robotic systems.
+    </p>
+
+    <hr>
+
+    <nav class="links" aria-label="Profile links">
+      <a href="https://www.linkedin.com/in/n-scheuer/">LinkedIn</a>
+      <a href="pictures/cv_niclas_scheuer.pdf" target="_blank" rel="noopener">CV</a>
+      <a href="https://github.com/nic2703">GitHub</a>
+    </nav>
+
+    <hr>
+
+    <!-- Projects -->
+    <section class="projects" id="projects">
+      <h2>What's Happening:</h2>
+      <div id="project-list" aria-live="polite"></div>
+    </section>
+
+    <section class="portfolio" id="portfolio">
+      <h2>Some of my projects:</h2>
+      <div id="portfolio-list" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script>
+    /**
+     * Add, remove, or reorder project pages here.
+     * Each URL should point to a standalone HTML file like the template below.
+     */
+    const PROJECTS = [
+      'projects/mit-exchange.html',
+      'projects/head-ta.html',
+      'projects/rfa.html'
+    ];
+
+    const PORTFOLIO = [
+      'projects/amundsen.html',
+      'projects/minimal-robot.html',
+      'projects/bottleneck.html',
+      'projects/k3s-server.html'
+    ];
+
+    // Fetch each project file, extract its fields, then render.
+    async function loadProjectList(containerId, urls) {
+      const list = document.getElementById(containerId);
+      for (const url of urls) {
+        try {
+          const res = await fetch(url, { cache: 'no-store' });
+          if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
+          const html = await res.text();
+          const doc = new DOMParser().parseFromString(html, 'text/html');
+
+          const node = doc.querySelector('article#project');
+          if (!node) throw new Error('No <article id="project"> found in ' + url);
+
+          const title = node.dataset.title?.trim() || 'Untitled project';
+          const short = node.dataset.short?.trim() || '';
+          const image = node.dataset.image?.trim() || '';
+          const imageAlt = node.dataset.imageAlt?.trim() || title;
+          const longHTML = (node.querySelector('.long')?.innerHTML || '').trim();
+
+          list.appendChild(renderProject({ title, short, image, imageAlt, longHTML, url }));
+        } catch (err) {
+          console.error('Project load failed:', url, err);
+        }
+      }
+    }
+
+
+    function renderProject(p) {
+      const wrap = document.createElement('article');
+      wrap.className = 'project';
+      wrap.setAttribute('role', 'button');
+      wrap.setAttribute('tabindex', '0');
+      wrap.setAttribute('aria-expanded', 'false');
+      wrap.setAttribute('aria-label', p.title);
+
+      wrap.innerHTML = `
+        <input class="toggle-button" type="checkbox" aria-hidden="true">
+        <div class="meta">
+          <div class="title">${p.title}</div>
+          <p class="short">${p.short}</p>
+        </div>
+        ${p.image ? `<img class="thumb" src="${p.image}" alt="${p.imageAlt}" loading="lazy" decoding="async">` : ``}
+        <div class="expand" hidden>
+          <div class="long">${p.longHTML}</div>
+        </div>
+      `;
+
+      const expandEl = wrap.querySelector('.expand');
+
+      function toggle(open) {
+        const isOpen = open ?? !wrap.classList.contains('open');
+        wrap.classList.toggle('open', isOpen);
+        wrap.setAttribute('aria-expanded', String(isOpen));
+        if (expandEl) expandEl.hidden = !isOpen;
+      }
+
+      wrap.addEventListener('click', (e) => {
+        // avoid toggling when clicking the "Open full project page" link
+        const a = e.target.closest('a');
+        if (a) return;
+        toggle();
+      });
+      wrap.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggle();
+        }
+      });
+
+      return wrap;
+    }
+
+    loadProjectList('project-list', PROJECTS);
+    loadProjectList('portfolio-list', PORTFOLIO);
+  </script>
+</body>
+</html>

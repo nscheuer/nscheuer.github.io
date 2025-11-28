@@ -1,0 +1,300 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-color: black;
+}
+
+#root {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: row; /* Default to side-by-side */
+    overflow: hidden;
+    background-color: black;
+}
+
+.split-left, .split-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    color: white;
+    box-sizing: border-box;
+}
+
+.split-right {
+    padding: clamp(20px, 5vw, 150px);
+}
+
+.split-left {
+    flex-basis: 30%; /* Start with 30% of the container's width */
+    flex-grow: 2;    /* Allow to grow relative to the other item */
+    background-color: black;
+    flex-direction: column;
+    padding: 20px;
+    overflow-y: auto; /* Enables vertical scrolling */
+    max-width: 500px;
+    min-width: 240px;
+    
+    display: flex;
+    justify-content: flex-start; /* Align items at the top */
+}
+
+.split-left-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;   /* Align buttons at the top */
+    align-items: center;           /* Center content horizontally */
+    
+    flex-grow: 1;                  /* Make the .split-left-buttons expand to fill the available space */
+    width: 100%;                   /* Ensure it takes the full width of .split-left */
+    min-height: 0;                 /* Prevent flexbox shrinking due to content overflow */
+    margin: 0;                     /* Reset margins if any */
+    padding-top: 10px;             /* Use a smaller padding for spacing instead of 10vh */
+}
+
+.project-button, .about-button {
+    color: white;
+    border: none;
+    padding: 15px;
+    font-size: clamp(1.0rem, 2vw, 1.2rem);
+    cursor: pointer;
+    width: 100%; /* Make buttons take up the full width */
+    text-align: left; /* Align text to the left */
+    border-radius: 5px;
+    background: linear-gradient(225deg, rgb(251, 175, 21), rgb(251, 21, 242), rgb(21, 198, 251)) 0% 0% / 300% 300%;
+    background-size: 300% 300%;
+    position: relative; /* Establish a containing block for pseudo-elements */
+    transition: background 0.3s ease, background-position 0.3s ease, color 0.3s ease, border 0.3s ease;
+    box-sizing: border-box; /* Include border in the element's dimensions */
+}
+
+.project-button {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.project-button span {
+    flex-grow: 1;
+}
+
+.about-button {
+    margin-top: 10px + clamp(10px, 3vw, 20px) + clamp(1.5rem, 2.5vw, 2.0rem) + 10px + 5px;
+    margin-bottom: 30px;
+}
+
+.project-button:hover, .about-button:hover, .back-desktop-button:hover, .disclaimer-desktop-button:hover {
+    -webkit-animation: gradient_move 1.5s ease-out forwards;
+    animation: gradient_move 1.5s ease-out forwards;
+}
+
+.project-button:active, .about-button:active {
+    background-color: #777;
+}
+
+.project-button.selected, .about-button.selected {
+    background: transparent; /* Make the background transparent */
+    color: white; /* Keep the text color consistent */
+    border: 4px solid; /* Show the border without affecting the layout */
+    border-image: linear-gradient(225deg, rgb(251, 175, 21), rgb(251, 21, 242), rgb(21, 198, 251)) 1;
+    box-sizing: border-box; /* Ensure border does not change button size */
+}
+
+.project-button.selected::before, .about-button.selected::before {
+    content: '';
+    position: absolute;
+    top: -4px; /* Adjust for the border */
+    left: -4px; /* Adjust for the border */
+    right: -4px; /* Adjust for the border */
+    bottom: -4px; /* Adjust for the border */
+    border-radius: 5px; /* Match the button's border-radius */
+    background: linear-gradient(225deg, rgb(251, 175, 21), rgb(251, 21, 242), rgb(21, 198, 251)) 0% 0% / 300% 300%;
+    z-index: -1; /* Place it behind the button text */
+    transition: opacity 0.5s ease; /* Smooth transition for the background morphing */
+    opacity: 1; /* Start with full opacity */
+}
+
+.project-button.selected:hover::before, .about-button.selected:hover::before {
+    opacity: 0; /* Gradually make the pseudo-element transparent */
+}
+
+@-webkit-keyframes gradient_move {
+    0%{background-position: 0% 92%}
+    50%{background-position: 100% 9%}
+    100%{background-position: 100% 92%}
+}
+@keyframes gradient_move {
+    0%{background-position: 0% 92%}
+    50%{background-position: 100% 9%}
+    100%{background-position: 100% 92%}
+}
+
+.desktop-buttons-container {
+    display: flex;
+    justify-content: space-between; /* Ensure the buttons are spaced out evenly */
+    width: 100%; /* Container takes the full width */
+    margin-bottom: 10px; /* Optional: Add some space below the container */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.back-desktop-button, .disclaimer-desktop-button {
+    color: white;
+    border: none;
+    padding: 8px; /* Reduced padding to make the button slightly less tall */
+    font-size: 15px;
+    cursor: pointer;
+    width: 40%;
+    text-align: left;
+    border-radius: 5px;
+    background: linear-gradient(225deg, rgb(0, 123, 255), rgb(0, 100, 200), rgb(0, 75, 150)) 0% 0% / 300% 300%;
+    background-size: 300% 300%;
+    position: relative;
+    transition: background 0.3s ease, background-position 0.3s ease, color 0.3s ease, border 0.3s ease;
+    box-sizing: border-box;
+    margin-bottom: 30px;
+    margin-right: 10px; /* Add margin to the right of the first button */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+
+.disclaimer-desktop-button {
+    margin-right: 0; /* Ensure the rightmost button doesn't have extra margin */
+}
+
+
+.split-right {
+    flex-basis: 80%; /* Start with 70% of the container's width */
+    flex-grow: 2;    /* Allow to grow more than .split-left */
+    background-color: rgba(128, 128, 128, 0.122);
+}
+
+.mobile-dropdown {
+    background-color: #333;
+    color: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    transition: max-height 0.3s ease-in-out;
+    overflow: hidden;
+    width: 85%;
+}
+
+.mobile-dropdown h3 {
+    margin-top: 0;
+}
+
+.back-button {
+    position: fixed;
+    top: clamp(2px, 3vw, 20px);
+    left: clamp(2px, 3vw, 20px);
+    padding: 10px 20px;
+    background-color: transparent;
+    color: purple;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: clamp(1.5rem, 2.5vw, 2.0rem);
+}
+
+.back-button:hover {
+    color: #0056b3;
+    justify-content: flex-start;
+}
+
+.project-button-content {
+    display: flex;
+    flex-direction: column; /* Arrange the name and logos vertically */
+    align-items: flex-start; /* Center-align the content */
+}
+
+.project-name {
+    margin-bottom: 5px; /* Add some space between the name and logos */
+    text-align: left; /* Center-align the project name */
+}
+
+.project-logos {
+    display: flex;
+    justify-content: flex-start; /* Center the logos */
+    flex-wrap: wrap; /* Ensure logos wrap if there are too many for one line */
+}
+
+.project-logo {
+    width: 1.7vw;
+    max-width: 30px;
+    min-width: 20px;
+    margin-right: 10px;
+    flex-shrink: 0;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+.project-image {
+    width: 40%;
+    max-width: 500px;
+    min-width: 300px;
+    height: 100%;
+    border-radius: 5px;
+}
+
+.actuallinkstyle {
+    margin-top: 3px;
+    font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+    color: rgb(0, 149, 255)
+}
+
+/* Switch to top and bottom when the window is taller than it is wide */
+@media (max-aspect-ratio: 1/1), (max-height: 500px) {
+    body, html {
+        overflow: auto;
+        position: relative;
+    }
+    #root {
+        flex-direction: column;
+        height: auto;
+        overflow-y: auto;
+    }
+    .split-left, .split-right {
+        width: 100%;
+        overflow-y: visible;
+    }
+    .split-right {
+        order: 1;
+        min-height: 70vh;
+        margin-top: 10px;
+    }
+    .split-left {
+        order: 2;
+        flex-grow: 0;
+        flex-shrink: 0;
+        max-width: none;
+    }
+    .mobile-dropdown {
+        max-height: none;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out;
+    }
+    .back-button {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        z-index: 2;
+    }
+    .project-button {
+        font-size: clamp(1.2rem, 3vw, 1.5rem);
+    }
+}
+
+@media (max-height: 800px) {
+    .split-left-buttons {
+        justify-content: flex-start;  /* Prevent vertical centering when space is small */
+        padding-top: 10px;            /* Keep a small padding at the top */
+    }
+}

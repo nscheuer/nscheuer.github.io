@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Amundsen Robot Project</title>
+  <meta name="description" content="Amundsen Robot Project.">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; margin: 24px; line-height: 1.6; }
+    img { max-width: 100%; border-radius: 12px; }
+    h1 { margin-top: 0; }
+    /* Optional light/dark default */
+    @media (prefers-color-scheme: dark) {
+      html, body { background: #0b0d10; color: #e5e7eb; }
+      a { color: #93c5fd; }
+    }
+  </style>
+</head>
+<body>
+  <!--
+    The main page reads this <article id="project"> to build the card.
+    Required data-* attributes:
+      data-title       → Title text
+      data-short       → One-line short description
+      data-image       → URL to thumbnail/hero image
+      data-image-alt   → Alt text for the image
+    The .long element may contain rich HTML; it appears when the bar expands.
+  -->
+  <article id="project"
+           data-title="Amundsen Robot Project 🔄"
+           data-short="Designed and integrated hardware and control software to gain practical experience in robotics systems."
+           data-image="pictures/amundsen.webp"
+           data-image-alt="Collage of the robot core and software running.">
+    <div class="long">
+      <p>
+        Ongoing project to practice and learn modern robotics concepts and applying these.
+        </p>
+        <h3>Software</h3>
+        <p>
+        Developing a live robotics dashboard for visualizing the positions, sensor readings, and commands of multiple robots in real time.
+        </p>
+        <ul>
+        <li>Backend stack in Go, ingesting live ROS2 telemetry and storing data in PostgreSQL and Redis.</li>
+        <li>Frontend visualization with CesiumJS world map; Zustand as datastore; efficient position history via WebSockets.</li>
+        <li>Backend supports diverse telemetry: position, IMU, encoders, images, and LiDAR data.</li>
+        <li>Containerized with Docker and deployed via Kubernetes for scalable, production-grade operation.</li>
+        </ul>
+
+        <h3>Hardware</h3>
+        <p>
+        Designing and building a robot from scratch, including custom electronics and mechanical integration.
+        </p>
+        <ul>
+        <li>PCB design in KiCAD; evaluation of electrical components (MOSFETs, wiring, fuses) for expected loads.</li>
+        <li>Soldering and assembly of a battery management system with LiPo batteries, including reverse-polarity protection.</li>
+        <li>Integration of Nvidia Jetson Nano with CAN bus to drive ST B-G431B-ESC1 motor controllers.</li>
+        <li>Encoder programming and oscilloscope validation of quadrature signals.</li>
+        <li>Configuration and tuning of ST motor driver boards.</li>
+        </ul>
+
+        <h3>Future Work</h3>
+        <ul>
+            <li>Mechanical design and 3D-printing parts for integration of motors and treads.</li>
+            <li>Communication with robot using LoRA and FPV video downlink.</li>
+        </ul>
+        
+    </div>
+  </article>
+</body>
+</html>
