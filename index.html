@@ -40,6 +40,42 @@
       text-rendering: optimizeLegibility;
     }
 
+    .mode-switch {
+      display: flex;
+      justify-content: center;
+      gap: clamp(2.5rem, 6vw, 5rem);
+      margin: 14px 0 26px;
+    }
+
+    .mode-switch .mode {
+      background: none;
+      border: none;
+      font: inherit;
+      font-size: clamp(20px, 3vw, 24px);
+      color: var(--muted);
+      cursor: pointer;
+      padding: 6px 0;
+      border-bottom: 2px solid transparent;
+    }
+
+    .mode-switch .mode.active {
+      color: var(--fg);
+      border-color: var(--fg);
+      font-weight: 600;
+    }
+
+    .mode-switch .mode:hover {
+      color: var(--fg);
+    }
+
+    .mode-panel {
+      display: none;
+    }
+
+    .mode-panel.active {
+      display: block;
+    }
+
     .wrap {
       max-width: 950px;
       margin: 40px auto;
@@ -157,8 +193,9 @@
     }
 
     .project img.thumb {
-      width: min(220px, 26vw);
-      height: 120px;
+      background: #e8eaef;
+      width: min(300px, 40vw);
+      height: min(120px, 20vw);
       object-fit: cover;
       border-radius: 12px;
       border: 1px solid var(--cardBorder);
@@ -228,15 +265,31 @@
 
     <hr>
 
+    <nav class="mode-switch" role="tablist" aria-label="Content selection">
+      <button class="mode active" data-target="industry" role="tab" aria-selected="true">
+        Industry
+      </button>
+      <button class="mode" data-target="projects" role="tab" aria-selected="false">
+        Projects
+      </button>
+      <button class="mode" data-target="education" role="tab" aria-selected="false">
+        Education
+      </button>
+    </nav>
+
     <!-- Projects -->
-    <section class="projects" id="projects">
-      <h2>What's Happening:</h2>
-      <div id="project-list" aria-live="polite"></div>
+    <section class="mode-panel active" id="industry">
+      <div id="industry-list"></div>
     </section>
 
-    <section class="portfolio" id="portfolio">
-      <h2>Some of my projects:</h2>
-      <div id="portfolio-list" aria-live="polite"></div>
+    <section class="mode-panel" id="projects">
+      <div id="project-list"></div>
+    </section>
+
+    <section class="mode-panel" id="education">
+      <div class="education-list">
+        <!-- minimal static content -->
+      </div>
     </section>
   </main>
 
@@ -245,17 +298,21 @@
      * Add, remove, or reorder project pages here.
      * Each URL should point to a standalone HTML file like the template below.
      */
-    const PROJECTS = [
-      'projects/mit-exchange.html',
-      'projects/head-ta.html',
-      'projects/rfa.html'
+    const INDUSTRY = [
+      'projects/industry/starlab.html',
+      'projects/industry/ssc.html',
+      'projects/industry/mitrt.html',
+      'projects/industry/ta.html',
+      'projects/industry/rfa.html'
     ];
 
-    const PORTFOLIO = [
-      'projects/amundsen.html',
-      'projects/minimal-robot.html',
-      'projects/bottleneck.html',
-      'projects/k3s-server.html'
+    const PROJECTS = [
+      'projects/projects/beavercube2.html',
+      'projects/projects/leonird.html',
+      'projects/projects/amundsen.html',
+      'projects/projects/minimal-robot.html',
+      'projects/projects/bottleneck.html',
+      'projects/projects/k3s-server.html'
     ];
 
     // Fetch each project file, extract its fields, then render.
@@ -330,8 +387,27 @@
       return wrap;
     }
 
+    loadProjectList('industry-list', INDUSTRY);
     loadProjectList('project-list', PROJECTS);
-    loadProjectList('portfolio-list', PORTFOLIO);
+  </script>
+  <script>
+    const buttons = document.querySelectorAll('.mode-switch .mode');
+    const panels = document.querySelectorAll('.mode-panel');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.target;
+
+        buttons.forEach(b => {
+          b.classList.toggle('active', b === btn);
+          b.setAttribute('aria-selected', b === btn);
+        });
+
+        panels.forEach(p => {
+          p.classList.toggle('active', p.id === target);
+        });
+      });
+    });
   </script>
 </body>
 </html>

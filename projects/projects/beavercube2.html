@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BeaverCube 2</title>
+  <meta name="description" content="Oceanographic Research Satellite.">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; margin: 24px; line-height: 1.6; }
+    img { max-width: 100%; border-radius: 12px; }
+    h1 { margin-top: 0; }
+    /* Optional light/dark default */
+    @media (prefers-color-scheme: dark) {
+      html, body { background: #0b0d10; color: #e5e7eb; }
+      a { color: #93c5fd; }
+    }
+  </style>
+</head>
+<body>
+  <!--
+    The main page reads this <article id="project"> to build the card.
+    Required data-* attributes:
+      data-title       → Title text
+      data-short       → One-line short description
+      data-image       → URL to thumbnail/hero image
+      data-image-alt   → Alt text for the image
+    The .long element may contain rich HTML; it appears when the bar expands.
+  -->
+  <article id="project"
+           data-title="BeaverCube 2 🔄"
+           data-short="Oceanographic Research CubeSat by MIT STARLab and MIT Portugal"
+           data-image="pictures/projects/bc2.jpg"
+           data-image-alt="Rendering of the BeaverCube 2 CubeSat.">
+    <div class="long">
+      <p>
+        BeaverCube 2 is an oceanographic research cubesat developed by MIT STARLab and MIT Portugal. It aims to use onboard image inference to enable more efficient data collection and reduce downlink requirements. I worked on specifically:
+      </p>
+      <ul>
+        <li>Modelling and validation of control/estimator schemes</li>
+        <li>Flight computer architecture and mission operations (CONOPS)</li>
+        <li>Supported flatsat integration and testing workflows</li>
+        <li>Technical coordination and project organization, including hiring and onboarding of new team members</li>
+  <li>Establishing and maintaining GitHub workflows, documentation standards, and cross-team development practices</li>
+      </ul>
+    </div>
+  </article>
+</body>
+</html>
