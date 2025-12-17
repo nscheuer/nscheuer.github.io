@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="dark light" />
   <title>Niclas Scheuer</title>
+
   <style>
     :root {
       --bg: #0b0d10;
@@ -40,46 +41,77 @@
       text-rendering: optimizeLegibility;
     }
 
-    .mode-switch {
-      display: flex;
-      justify-content: center;
-      gap: clamp(2.5rem, 6vw, 5rem);
-      margin: 14px 0 26px;
+    /* =========================
+       HERO BACKGROUND (VIDEO)
+       Only behind: title + intro
+       ========================= */
+    .hero-bg {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      max-width: 950px;
+      padding: 0 18px;
     }
 
-    .mode-switch .mode {
-      background: none;
-      border: none;
-      font: inherit;
-      font-size: clamp(20px, 3vw, 24px);
-      color: var(--muted);
-      cursor: pointer;
-      padding: 6px 0;
-      border-bottom: 2px solid transparent;
+    .hero-bg .bg-video {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 30%, #0f172a 0%, #020617 70%);
     }
 
-    .mode-switch .mode.active {
-      color: var(--fg);
-      border-color: var(--fg);
-      font-weight: 600;
+    .hero-bg .bg-video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+
+      /* Fade-in setup */
+      opacity: 0;
+      transition: opacity 900ms ease;
+      filter: saturate(1.1) contrast(1.05);
     }
 
-    .mode-switch .mode:hover {
-      color: var(--fg);
+    /* When JS marks it ready */
+    .hero-bg .bg-video.ready video {
+      opacity: 0.35;
     }
 
-    .mode-panel {
-      display: none;
+    /* Dark overlay for readability */
+    .hero-bg .bg-video::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        ellipse at center,
+        rgba(0,0,0,0.25) 0%,
+        rgba(0,0,0,0.55) 70%
+      );
+      pointer-events: none;
     }
 
-    .mode-panel.active {
-      display: block;
+    /* Foreground content inside hero */
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 0; /* keep your existing spacing inside children */
     }
 
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-bg .bg-video video { display: none; }
+      .hero-bg .bg-video::after {
+        background: rgba(0,0,0,0.55);
+      }
+    }
+
+    /* =========================
+       GENERAL LAYOUT
+       ========================= */
     .wrap {
       max-width: 950px;
-      margin: 40px auto;
-      padding: 0 18px;
+      margin: 0 auto;
+      padding: 0 18px 40px;
     }
 
     .header {
@@ -87,6 +119,7 @@
       grid-template-columns: 1fr auto;
       align-items: center;
       gap: 28px;
+      padding-top: 40px;
     }
 
     h1 {
@@ -124,34 +157,15 @@
       border: none;
       height: 1px;
       background: var(--line);
-      margin: 26px auto;
-      max-width: 650px; /* short horizontal line */
+      margin: 10px auto;
+      max-width: 650px;
     }
 
     .intro {
       max-width: 75ch;
-      margin-left: 2rem;         /* indented main paragraph */
+      margin-left: 2rem;
       font-size: clamp(16px, 2.1vw, 19px);
-    }
-
-    .bg-video {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      overflow: hidden;
-      background: radial-gradient(
-        circle at 50% 30%,
-        #0f172a 0%,
-        #020617 70%
-      );
-    }
-
-    .bg-video video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0.35; /* subtle, atmospheric */
-      filter: saturate(1.1) contrast(1.05);
+      padding-bottom: 8px;
     }
 
     .links {
@@ -169,16 +183,51 @@
     }
     .links a:hover { border-color: currentColor; }
 
-    /* Projects section */
-    .projects {
-      margin-top: 34px;
-    }
-    .projects h2 {
-      font-size: clamp(20px, 3vw, 28px);
-      margin: 0 0 12px 0;
-      letter-spacing: .2px;
+    /* =========================
+       MODE SWITCH + PANELS
+       These should stay on solid background
+       ========================= */
+
+    /* Solid background block starting at the mode switch (what you asked for) */
+    .solid-section {
+      background: var(--bg);
+      border-top: 1px solid var(--line);
+      margin-top: 28px;
+      padding-top: 18px;
     }
 
+    .mode-switch {
+      display: flex;
+      justify-content: center;
+      gap: clamp(2.5rem, 6vw, 5rem);
+      margin: 14px 0 26px;
+    }
+
+    .mode-switch .mode {
+      background: none;
+      border: none;
+      font: inherit;
+      font-size: clamp(20px, 3vw, 24px);
+      color: var(--muted);
+      cursor: pointer;
+      padding: 6px 0;
+      border-bottom: 2px solid transparent;
+    }
+
+    .mode-switch .mode.active {
+      color: var(--fg);
+      border-color: var(--fg);
+      font-weight: 600;
+    }
+
+    .mode-switch .mode:hover {
+      color: var(--fg);
+    }
+
+    .mode-panel { display: none; }
+    .mode-panel.active { display: block; }
+
+    /* Projects / cards */
     .project {
       background: var(--card);
       border: 1px solid var(--cardBorder);
@@ -196,9 +245,7 @@
     .project:hover { transform: translateY(-1px); }
     .project:focus-within, .project:focus-visible { outline: 2px solid var(--link); }
 
-    .project .meta {
-      min-width: 0; /* enable text truncation */
-    }
+    .project .meta { min-width: 0; }
     .project .title {
       font-weight: 650;
       font-size: 1.05rem;
@@ -232,7 +279,7 @@
     .project.open .short {
       white-space: normal;
       overflow: visible;
-      text-overflow: clip; /* or 'unset' */
+      text-overflow: clip;
     }
 
     .project .expand .long {
@@ -242,7 +289,7 @@
 
     .toggle-button {
       position: absolute;
-      left: -9999px; /* purely for a11y (keyboard/ARIA) */
+      left: -9999px;
     }
 
     @media (max-width: 720px) {
@@ -254,77 +301,118 @@
     }
   </style>
 </head>
+
 <body>
-  <div class="bg-video">
-    <video
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="metadata"
-      poster="media/bg-poster.webp"
-    >
-      <source src="pictures/video/bg.webm" type="video/webm">
-      <source src="pictures/video/Home_compressed.mp4" type="video/mp4">
-    </video>
-  </div>
-  <main class="wrap">
-    <section class="header">
-      <div>
-        <h1>Niclas Scheuer</h1>
-        <div class="subtitle">Master's student in Mechanical Engineering (Robotics &amp; Control)</div>
-        <div class="affiliations">
-          <a href="https://www.mit.edu/" rel="noopener">MIT</a>
-          &nbsp;&nbsp;·&nbsp;&nbsp;
-          <a href="https://ethz.ch/en.html" rel="noopener">ETH Zürich</a>
-        </div>
+
+  <!-- HERO (video background ONLY here) -->
+  <section class="hero-bg" aria-label="Hero section">
+    <div class="bg-video" id="bgVideo">
+      <video
+        id="heroVideo"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        poster="media/bg-poster.webp"
+      >
+        <source src="pictures/video/bg.webm" type="video/webm">
+        <source src="pictures/video/Home_compressed.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <div class="hero-content">
+      <div class="wrap">
+        <section class="header">
+          <div>
+            <h1>Niclas Scheuer</h1>
+            <div class="subtitle">Master's student in Mechanical Engineering (Robotics &amp; Control)</div>
+            <div class="affiliations">
+              <a href="https://www.mit.edu/" rel="noopener">MIT</a>
+              &nbsp;&nbsp;·&nbsp;&nbsp;
+              <a href="https://ethz.ch/en.html" rel="noopener">ETH Zürich</a>
+            </div>
+          </div>
+          <img class="avatar" src="pictures/me.avif" alt="Niclas Scheuer" loading="lazy" decoding="async" fetchpriority="high">
+        </section>
+
+        <hr>
+
+        <p class="intro">
+          I am a mechanical engineering student at ETH Zürich, specializing in control systems and robotics with a strong interest in space technology. I enjoy bridging the gap between theory and practice; from building and validating 6-DOF simulation models and autonomous control pipelines to designing hybrid locomotion systems for robots. I enjoy tackling multidisciplinary challenges at the intersection of control, mechatronics, and software, and I am particularly motivated by applications in aerospace and next-generation robotic systems.
+        </p>
+
+        <hr>
+
+        <nav class="links" aria-label="Profile links">
+          <a href="https://www.linkedin.com/in/n-scheuer/">LinkedIn</a>
+          <a href="pictures/cv_niclas_scheuer.pdf" target="_blank" rel="noopener">CV</a>
+          <a href="https://github.com/nscheuer">GitHub</a>
+        </nav>
       </div>
-      <img class="avatar" src="pictures/me.webp" alt="Niclas Scheuer" loading="lazy" decoding="async" fetchpriority="high">
-    </section>
+    </div>
+  </section>
 
-    <hr>
+  <!-- Solid background from here down -->
+  <section class="solid-section">
+    <main class="wrap">
+      <hr>
 
-    <p class="intro">
-      I am a mechanical engineering student at ETH Zürich, specializing in control systems and robotics with a strong interest in space technology. I enjoy bridging the gap between theory and practice; from building and validating 6-DOF simulation models and autonomous control pipelines to designing hybrid locomotion systems for robots. I enjoy tackling multidisciplinary challenges at the intersection of control, mechatronics, and software, and I am particularly motivated by applications in aerospace and next-generation robotic systems.
-    </p>
+      <nav class="mode-switch" role="tablist" aria-label="Content selection">
+        <button class="mode active" data-target="industry" role="tab" aria-selected="true">
+          Industry
+        </button>
+        <button class="mode" data-target="projects" role="tab" aria-selected="false">
+          Projects
+        </button>
+        <button class="mode" data-target="education" role="tab" aria-selected="false">
+          Education
+        </button>
+      </nav>
 
-    <hr>
+      <section class="mode-panel active" id="industry">
+        <div id="industry-list"></div>
+      </section>
 
-    <nav class="links" aria-label="Profile links">
-      <a href="https://www.linkedin.com/in/n-scheuer/">LinkedIn</a>
-      <a href="pictures/cv_niclas_scheuer.pdf" target="_blank" rel="noopener">CV</a>
-      <a href="https://github.com/nscheuer">GitHub</a>
-    </nav>
+      <section class="mode-panel" id="projects">
+        <div id="project-list"></div>
+      </section>
 
-    <hr>
+      <section class="mode-panel" id="education">
+        <div id="education-list"></div>
+      </section>
+    </main>
+  </section>
 
-    <nav class="mode-switch" role="tablist" aria-label="Content selection">
-      <button class="mode active" data-target="industry" role="tab" aria-selected="true">
-        Industry
-      </button>
-      <button class="mode" data-target="projects" role="tab" aria-selected="false">
-        Projects
-      </button>
-      <button class="mode" data-target="education" role="tab" aria-selected="false">
-        Education
-      </button>
-    </nav>
+  <script>
+    // Smooth fade-in once the video can play (or has loaded enough to start).
+    (function () {
+      const container = document.getElementById('bgVideo');
+      const video = document.getElementById('heroVideo');
+      if (!container || !video) return;
 
-    <!-- Projects -->
-    <section class="mode-panel active" id="industry">
-      <div id="industry-list"></div>
-    </section>
+      // If reduced motion, don't bother.
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+      }
 
-    <section class="mode-panel" id="projects">
-      <div id="project-list"></div>
-    </section>
+      const markReady = () => container.classList.add('ready');
 
-    <section class="mode-panel" id="education">
-      <div class="education-list">
-        <!-- minimal static content -->
-      </div>
-    </section>
-  </main>
+      // If it already has enough data
+      if (video.readyState >= 2) {
+        markReady();
+      } else {
+        video.addEventListener('loadeddata', markReady, { once: true });
+        video.addEventListener('canplay', markReady, { once: true });
+      }
+
+      // Some browsers block autoplay in edge cases; still show poster gracefully.
+      video.play().catch(() => {
+        // Keep poster; you could optionally still markReady() if you want it visible.
+        markReady();
+      });
+    })();
+  </script>
 
   <script>
     /**
@@ -346,6 +434,10 @@
       'projects/projects/minimal-robot.html',
       'projects/projects/bottleneck.html',
       'projects/projects/k3s-server.html'
+    ];
+
+    const EDUCATION = [
+      'projects/mit-exchange.html'
     ];
 
     // Fetch each project file, extract its fields, then render.
@@ -373,7 +465,6 @@
         }
       }
     }
-
 
     function renderProject(p) {
       const wrap = document.createElement('article');
@@ -405,7 +496,6 @@
       }
 
       wrap.addEventListener('click', (e) => {
-        // avoid toggling when clicking the "Open full project page" link
         const a = e.target.closest('a');
         if (a) return;
         toggle();
@@ -422,7 +512,9 @@
 
     loadProjectList('industry-list', INDUSTRY);
     loadProjectList('project-list', PROJECTS);
+    loadProjectList('education-list', EDUCATION)
   </script>
+
   <script>
     const buttons = document.querySelectorAll('.mode-switch .mode');
     const panels = document.querySelectorAll('.mode-panel');
