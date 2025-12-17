@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deep Learning Locomotion for a Hybrid Wheeled-Legged Quadruped</title>
+  <meta name="description" content="Deep Learning Locomotion for a Hybrid Wheeled-Legged Quadruped.">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; margin: 24px; line-height: 1.6; }
+    img { max-width: 100%; border-radius: 12px; }
+    h1 { margin-top: 0; }
+    /* Optional light/dark default */
+    @media (prefers-color-scheme: dark) {
+      html, body { background: #0b0d10; color: #e5e7eb; }
+      a { color: #93c5fd; }
+    }
+  </style>
+</head>
+<body>
+  <!--
+    The main page reads this <article id="project"> to build the card.
+    Required data-* attributes:
+      data-title       → Title text
+      data-short       → One-line short description
+      data-image       → URL to thumbnail/hero image
+      data-image-alt   → Alt text for the image
+    The .long element may contain rich HTML; it appears when the bar expands.
+  -->
+  <article id="project"
+           data-title="Deep Learning Locomotion for a Hybrid Wheeled-Legged Quadruped ✅"
+           data-short="Mechanical Design, Electrical Integration, RL Training, and ROS2 modification of a quadruped to enable wheeled locomotion."
+           data-image="pictures/projects/minimal_robot.avif"
+           data-image-alt="6-DoF robot arm grasping a tool">
+    <div class="long">
+      <p>
+        I wrote this project as part of my bachelor's thesis at the <a href="https://rsl.ethz.ch/">Robotics Systems Lab</a> at ETH Zurich. My project involved taking an existing quadruped robot called "Minimal" and adding wheels to enable it to perform hybrid walking/rolling locomotion. Specifically, my contributions were:
+      </p>
+      <ul>
+        <li>Evaluating different motor configurations and sizings for compatibility to the existing bus and mobility</li>
+        <li>Rapid prototyping for modified wheels and legs using 3D printing of PLA and TPU</li>
+        <li>Detailled modelling of the robot and actuators in URDF format</li>
+        <li>Training deep learning robust hybrid locomotion policies using Nvidia IsaacGym, validation of reference tracking in Gazebo</li>
+        <li>Rewriting the existing ROS control stack in ROS2 including modifications to account for new actuators and encoders</li>
+      </ul>
+    </div>
+  </article>
+</body>
+</html>

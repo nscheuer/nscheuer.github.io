@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Controls Engineer - MIT Rocket Team</title>
+  <meta name="description" content="Controls Engineering for two hoppers at the MIT Rocket Team.">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; margin: 24px; line-height: 1.6; }
+    img { max-width: 100%; border-radius: 12px; }
+    h1 { margin-top: 0; }
+    /* Optional light/dark default */
+    @media (prefers-color-scheme: dark) {
+      html, body { background: #0b0d10; color: #e5e7eb; }
+      a { color: #93c5fd; }
+    }
+  </style>
+</head>
+<body>
+  <!--
+    The main page reads this <article id="project"> to build the card.
+    Required data-* attributes:
+      data-title       → Title text
+      data-short       → One-line short description
+      data-image       → URL to thumbnail/hero image
+      data-image-alt   → Alt text for the image
+    The .long element may contain rich HTML; it appears when the bar expands.
+  -->
+  <article id="project"
+           data-title="Controls Engineer @ MIT Rocket Team 🔄"
+           data-short="Building controls and estimation stack for VTVL hoppers."
+           data-image="pictures/industry/mitrt.avif"
+           data-image-alt="MIT Rocket Team Logo.">
+    <div class="long">
+      <ul>
+        <li>Leading development of Simulink-based dynamics and control models for resuable hopper vehicles</li>
+        <li>Developing integrated GNC and propulsion models for hardware-in the-loop (HIL) testing</li>
+        <li>Supporting estimator design, controller tuning, and simulation-based validation</li>
+      </ul>
+    </div>
+  </article>
+</body>
+</html>
