@@ -47,10 +47,10 @@
        ========================= */
     .hero-bg {
       position: relative;
-      border-radius: 18px;
+      width: 100vw;
+      margin-left: calc(50% - 50vw); /* escape centered layout */
+      border-radius: 0;              /* optional: looks cleaner wide */
       overflow: hidden;
-      max-width: 950px;
-      padding: 0 18px;
     }
 
     .hero-bg .bg-video {
