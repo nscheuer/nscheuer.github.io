@@ -67,7 +67,7 @@
       object-fit: cover;
 
       /* Fade-in setup */
-      opacity: 0;
+      opacity: 0.001;
       transition: opacity 900ms ease;
       filter: saturate(1.1) contrast(1.05);
     }
@@ -313,7 +313,8 @@
         muted
         loop
         playsinline
-        preload="metadata"
+        webkit-playsinline
+        preload="auto"
         poster="media/bg-poster.webp"
       >
         <source src="pictures/video/bg.webm" type="video/webm">
@@ -406,7 +407,7 @@
         video.addEventListener('canplay', markReady, { once: true });
       }
 
-      // Some browsers block autoplay in edge cases; still show poster gracefully.
+      video.muted = true;
       video.play().catch(() => {
         // Keep poster; you could optionally still markReady() if you want it visible.
         markReady();
@@ -437,7 +438,9 @@
     ];
 
     const EDUCATION = [
-      'projects/mit-exchange.html'
+      'projects/education/mit-exchange.html',
+      'projects/education/esop.html',
+      'projects/education/bachelor.html'
     ];
 
     // Fetch each project file, extract its fields, then render.
