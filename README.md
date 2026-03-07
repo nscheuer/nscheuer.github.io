@@ -1,6 +1,19 @@
-# homepage
+# nscheuer.github.io
 
-My homepage. Homepage can be loaded by opening `index.html` in a browser. I made efforts to have the website load as fast as possible.
+Personal portfolio website for Niclas Scheuer.
 
-### Old Homepage
-The file `earthindex.html` opens the original, old websit e that I created using [ThreeJS]("https://threejs.org/") and has the Earth rotating with realistic night lighting. Althrough I made quite a lot of efforts to optimize the the website, the skybox takes up too much memory and the loading performance is quite poor.
+## Run locally
+Open `index.html` in a browser (or serve the folder with a local web server for best compatibility).
+
+## Structure
+- `index.html` — current main homepage
+- `projects/` — project/industry/education content pages loaded by the homepage
+- `pictures/` — images, video, and PDF assets
+- `earthindex.html` — legacy Three.js-based homepage
+
+## Notes
+The current homepage is optimized for a lightweight, fast-loading experience. The legacy Three.js page is kept for reference.
+
+## Extra documentation
+- `nscheuer.github.io/Generalized_ADCS` links to the documentation for the **Generalized_ADCS** repository.
+- `nscheuer.github.io/SALTRO` links to the documentation for the **SALTRO** repository.
