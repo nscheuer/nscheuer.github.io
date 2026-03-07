@@ -13,3 +13,7 @@ Open `index.html` in a browser (or serve the folder with a local web server for 
 
 ## Notes
 The current homepage is optimized for a lightweight, fast-loading experience. The legacy Three.js page is kept for reference.
+
+## Extra documentation
+- `nscheuer.github.io/Generalized_ADCS` links to the documentation for the **Generalized_ADCS** repository.
+- `nscheuer.github.io/SALTRO` links to the documentation for the **SALTRO** repository.
