@@ -367,17 +367,17 @@
 
     .publication-list {
       display: grid;
-      gap: 14px;
+      gap: 10px;
       margin-top: 2px;
     }
 
     .publication-card {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 108px;
-      gap: 18px;
+      grid-template-columns: minmax(0, 1fr) 84px;
+      gap: 14px;
       align-items: center;
-      padding: 18px 20px;
-      border-radius: 22px;
+      padding: 14px 16px;
+      border-radius: 18px;
       background: var(--cardLight);
       color: inherit;
       text-decoration: none;
@@ -400,7 +400,7 @@
     }
 
     .publication-title {
-      font-size: 1.02rem;
+      font-size: 0.98rem;
       font-weight: 600;
       line-height: 1.4;
     }
@@ -418,13 +418,152 @@
     }
 
     .publication-thumb {
-      width: 108px;
+      width: 84px;
       aspect-ratio: 1;
-      border-radius: 16px;
+      border-radius: 14px;
       background:
         linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04)),
         rgba(255,255,255,0.03);
       overflow: hidden;
+    }
+
+    .publication-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .about {
+      padding: 68px 0 0;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+      gap: 26px;
+      align-items: start;
+    }
+
+    .about-side {
+      min-width: 0;
+    }
+
+    .about-heading {
+      margin: 0 0 14px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .about-detail {
+      display: none;
+      margin-top: 10px;
+    }
+
+    .about-detail.active {
+      display: block;
+    }
+
+    .about-detail-image {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border-radius: 18px;
+      display: block;
+    }
+
+    .about-detail-text {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .about-main {
+      min-width: 0;
+    }
+
+    .about-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .about-tab {
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 7px 14px;
+      color: var(--muted);
+      font: inherit;
+      font-size: 0.98rem;
+      cursor: pointer;
+      transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+    }
+
+    .about-tab.active {
+      color: #ffffff;
+      background: #0f62fe;
+      border-color: #0f62fe;
+    }
+
+    .about-tab:hover {
+      color: var(--fg);
+    }
+
+    .about-panel {
+      display: none;
+    }
+
+    .about-panel.active {
+      display: block;
+    }
+
+    .about-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .about-card {
+      background: var(--cardLight);
+      border-radius: 18px;
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: background-color 180ms ease;
+    }
+
+    .about-card:hover,
+    .about-card:focus-within {
+      background: var(--cardLightHover);
+    }
+
+    .about-card.active {
+      background: var(--cardLightHover);
+    }
+
+    .about-card-head {
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr);
+      gap: 14px;
+      align-items: center;
+    }
+
+    .about-logo {
+      width: 48px;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 12px;
+      display: block;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .about-card-title {
+      margin: 0;
+      font-size: 0.98rem;
+      font-weight: 500;
+      line-height: 1.35;
     }
 
     @media (max-width: 720px) {
@@ -439,8 +578,18 @@
         grid-template-columns: 1fr;
       }
       .publication-thumb {
-        width: 96px;
+        width: 84px;
         justify-self: end;
+      }
+      .about {
+        padding-top: 56px;
+      }
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+      .about-tabs {
+        gap: 14px;
+        flex-wrap: wrap;
       }
     }
   </style>
@@ -565,7 +714,9 @@
               <p class="publication-authors">Patrick McKeen, Niclas Scheuer, Kerri Cahoy</p>
               <p class="publication-conference">Accepted, SmallSat Europe 2026</p>
             </div>
-            <div class="publication-thumb" aria-hidden="true"></div>
+            <div class="publication-thumb" aria-hidden="true">
+              <img src="pictures/publications/smallsat_europe.jpg" alt="" loading="lazy" decoding="async">
+            </div>
           </article>
 
           <article class="publication-card" aria-label="A Feasibility-Aware Attitude Trajectory Planner for Underactuated and Unconventionally Actuated Small Satellites">
@@ -574,7 +725,9 @@
               <p class="publication-authors">Patrick McKeen, Niclas Scheuer, Kerri Cahoy</p>
               <p class="publication-conference">Accepted, SmallSat US 2026</p>
             </div>
-            <div class="publication-thumb" aria-hidden="true"></div>
+            <div class="publication-thumb" aria-hidden="true">
+              <img src="pictures/publications/smallsat_us.png" alt="" loading="lazy" decoding="async">
+            </div>
           </article>
 
           <article class="publication-card" aria-label="Generalized Attitude Control Allocation for Small Spacecraft">
@@ -583,7 +736,9 @@
               <p class="publication-authors">Patrick McKeen, Niclas Scheuer, Kerri Cahoy</p>
               <p class="publication-conference">Accepted, SmallSat US 2026</p>
             </div>
-            <div class="publication-thumb" aria-hidden="true"></div>
+            <div class="publication-thumb" aria-hidden="true">
+              <img src="pictures/publications/smallsat_us.png" alt="" loading="lazy" decoding="async">
+            </div>
           </article>
 
           <article class="publication-card" aria-label="One Wheel Is Enough: Control Strategies for the 3+1 Actuator Architecture Across Small Satellite Mission Profiles">
@@ -592,8 +747,39 @@
               <p class="publication-authors">Patrick McKeen, Niclas Scheuer, Kerri Cahoy</p>
               <p class="publication-conference">Accepted, 77th International Astronautical Congress</p>
             </div>
-            <div class="publication-thumb" aria-hidden="true"></div>
+            <div class="publication-thumb" aria-hidden="true">
+              <img src="pictures/publications/iaf.png" alt="" loading="lazy" decoding="async">
+            </div>
           </article>
+        </div>
+      </section>
+
+      <section class="about" aria-label="About me">
+        <div class="about-grid">
+          <aside class="about-side">
+            <h2 class="about-heading">About Me</h2>
+            <div class="about-detail" id="about-detail" aria-live="polite"></div>
+          </aside>
+
+          <div class="about-main">
+            <nav class="about-tabs" aria-label="About categories">
+              <button class="about-tab active" data-target="about-work" aria-selected="true">Work</button>
+              <button class="about-tab" data-target="about-education" aria-selected="false">Education</button>
+              <button class="about-tab" data-target="about-projects" aria-selected="false">Projects</button>
+            </nav>
+
+            <section class="about-panel active" id="about-work">
+              <div class="about-list" id="about-work-list"></div>
+            </section>
+
+            <section class="about-panel" id="about-education">
+              <div class="about-list" id="about-education-list"></div>
+            </section>
+
+            <section class="about-panel" id="about-projects">
+              <div class="about-list" id="about-projects-list"></div>
+            </section>
+          </div>
         </div>
       </section>
     </section>
@@ -647,6 +833,148 @@
         }
       });
     })();
+  </script>
+
+  <script>
+    const ABOUT_WORK = [
+      'content/work/starlab.html',
+      'content/work/ssc.html',
+      'content/work/mit-rtl.html'
+    ];
+
+    const ABOUT_EDUCATION = [
+      'content/education/eth-zurich.html',
+      'content/education/mit.html',
+      'content/education/esop.html'
+    ];
+
+    const ABOUT_PROJECTS = [
+      'content/projects/beavercube2.html',
+      'content/projects/amundsen.html',
+      'content/projects/minimal-robot.html'
+    ];
+
+    async function loadAboutList(containerId, urls) {
+      const list = document.getElementById(containerId);
+      if (!list) return;
+
+      for (const url of urls) {
+        try {
+          const res = await fetch(url, { cache: 'no-store' });
+          if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
+          const html = await res.text();
+          const doc = new DOMParser().parseFromString(html, 'text/html');
+          const node = doc.querySelector('article#entry');
+          if (!node) throw new Error('No <article id="entry"> found in ' + url);
+
+          const title = node.dataset.title?.trim() || 'Untitled entry';
+          const logo = node.dataset.logo?.trim() || '';
+          const image = node.dataset.image?.trim() || '';
+          const logoAlt = node.dataset.logoAlt?.trim() || title;
+          const imageAlt = node.dataset.imageAlt?.trim() || title;
+          const bodyHTML = (node.querySelector('.entry-copy')?.innerHTML || '').trim();
+
+          list.appendChild(renderAboutCard({ title, logo, image, logoAlt, imageAlt, bodyHTML }));
+        } catch (err) {
+          console.error('About entry load failed:', url, err);
+        }
+      }
+    }
+
+    function renderAboutCard(entry) {
+      const card = document.createElement('article');
+      card.className = 'about-card';
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('aria-pressed', 'false');
+      card.setAttribute('aria-label', entry.title);
+      card.dataset.title = entry.title;
+      card.dataset.image = entry.image;
+      card.dataset.imageAlt = entry.imageAlt;
+      card.dataset.bodyHtml = entry.bodyHTML;
+
+      card.innerHTML = `
+        <div class="about-card-head">
+          <img class="about-logo" src="${entry.logo}" alt="${entry.logoAlt}" loading="lazy" decoding="async">
+          <h3 class="about-card-title">${entry.title}</h3>
+        </div>
+      `;
+
+      return card;
+    }
+
+    loadAboutList('about-work-list', ABOUT_WORK);
+    loadAboutList('about-education-list', ABOUT_EDUCATION);
+    loadAboutList('about-projects-list', ABOUT_PROJECTS);
+  </script>
+
+  <script>
+    const aboutTabs = document.querySelectorAll('.about-tab');
+    const aboutPanels = document.querySelectorAll('.about-panel');
+    const aboutDetail = document.getElementById('about-detail');
+
+    function clearAboutSelection() {
+      document.querySelectorAll('.about-card').forEach((card) => {
+        card.classList.remove('active');
+        card.setAttribute('aria-pressed', 'false');
+      });
+
+      if (aboutDetail) {
+        aboutDetail.innerHTML = '';
+        aboutDetail.classList.remove('active');
+      }
+    }
+
+    document.addEventListener('click', (event) => {
+      const card = event.target.closest('.about-card');
+      if (!card) return;
+
+      const isActive = card.classList.contains('active');
+      clearAboutSelection();
+
+      if (isActive) {
+        return;
+      }
+
+      card.classList.add('active');
+      card.setAttribute('aria-pressed', 'true');
+
+      if (aboutDetail) {
+        aboutDetail.innerHTML = `
+          <img class="about-detail-image" src="${card.dataset.image}" alt="${card.dataset.imageAlt}" loading="lazy" decoding="async">
+          <div class="about-detail-text">${card.dataset.bodyHtml}</div>
+        `;
+        aboutDetail.classList.add('active');
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      const card = event.target.closest('.about-card');
+      if (!card) return;
+
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        card.click();
+      }
+    });
+
+    aboutTabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.target;
+
+        aboutTabs.forEach((button) => {
+          const isActive = button === tab;
+          button.classList.toggle('active', isActive);
+          button.setAttribute('aria-selected', String(isActive));
+        });
+
+        aboutPanels.forEach((panel) => {
+          panel.classList.toggle('active', panel.id === target);
+        });
+
+        clearAboutSelection();
+      });
+    });
   </script>
 </body>
 </html>
