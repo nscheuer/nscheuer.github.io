@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="dark light" />
   <title>Niclas Scheuer</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%230b0d10'/%3E%3Ccircle cx='32' cy='24' r='12' fill='%238ec5ff'/%3E%3Cpath d='M18 48c3-8 9-12 14-12s11 4 14 12' fill='none' stroke='%23f8fafc' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <link rel="preload" as="image" href="pictures/video/hero_poster.webp" fetchpriority="high" />
   <link rel="preload" as="image" href="pictures/video/genadcs_firstframe.png" />
-  <link rel="preload" as="image" href="pictures/video/genadcs_animation_fast.gif" />
   <link rel="preload" as="image" href="pictures/video/saltro_firstframe.png" />
-  <link rel="preload" as="image" href="pictures/video/saltro_animation_short.gif" />
 
   <style>
     :root {
@@ -281,7 +281,7 @@
     }
 
     .product-image,
-    .product-gif {
+    .product-motion {
       position: absolute;
       inset: 0;
       width: 100%;
@@ -297,13 +297,14 @@
       filter: saturate(0.9);
     }
 
-    .product-gif {
+    .product-motion {
       opacity: 0;
       transform: scale(1.04);
+      pointer-events: none;
     }
 
     .product-media.contain .product-image,
-    .product-media.contain .product-gif {
+    .product-media.contain .product-motion {
       object-fit: contain;
       background: #05070a;
     }
@@ -314,8 +315,8 @@
       transform: scale(1.03);
     }
 
-    .product-card:hover .product-gif,
-    .product-card:focus-within .product-gif {
+    .product-card:hover .product-motion.is-ready,
+    .product-card:focus-within .product-motion.is-ready {
       opacity: 1;
       transform: scale(1);
     }
@@ -369,6 +370,8 @@
 
     .publications {
       padding: 66px 0 0;
+      content-visibility: auto;
+      contain-intrinsic-size: 760px;
     }
 
     .publication-list {
@@ -442,6 +445,8 @@
 
     .about {
       padding: 92px 0 0;
+      content-visibility: auto;
+      contain-intrinsic-size: 1180px;
     }
 
     .section-label.dark {
@@ -455,6 +460,8 @@
       margin-top: 92px;
       background: #e8dfd1;
       color: #111111;
+      content-visibility: auto;
+      contain-intrinsic-size: 220px;
     }
 
     .future-inner {
@@ -468,6 +475,8 @@
       margin-left: calc(50% - 50vw);
       background: var(--bg);
       color: var(--muted);
+      content-visibility: auto;
+      contain-intrinsic-size: 120px;
     }
 
     .footer-inner {
@@ -794,7 +803,7 @@
 
     .about-logo {
       width: 48px;
-      aspect-ratio: 1;
+      height: 48px;
       object-fit: cover;
       border-radius: 12px;
       display: block;
@@ -892,10 +901,10 @@
         playsinline
         webkit-playsinline
         preload="auto"
-        poster="media/bg-poster.webp"
+        poster="pictures/video/hero_poster.webp"
       >
-        <source src="pictures/video/bg.webm" type="video/webm">
-        <source src="pictures/video/Home_compressed.mp4" type="video/mp4">
+        <source src="pictures/video/Home_compressed.webm" type="video/webm">
+        <source src="pictures/video/Home_compressed_fallback.mp4" type="video/mp4">
       </video>
     </div>
 
@@ -911,7 +920,7 @@
               <a href="https://ethz.ch/en.html" rel="noopener">ETH Zürich</a>
             </div>
           </div>
-          <img class="avatar" src="pictures/me.avif" alt="Niclas Scheuer" loading="lazy" decoding="async" fetchpriority="high">
+          <img class="avatar" src="pictures/me.avif" alt="Niclas Scheuer" loading="eager" decoding="async" fetchpriority="high" width="2048" height="2048">
         </section>
 
         <hr>
@@ -945,15 +954,18 @@
               loading="eager"
               decoding="async"
               fetchpriority="high"
+              width="1412"
+              height="860"
             >
-            <img
-              class="product-gif"
-              src="pictures/video/genadcs_animation_fast.gif"
-              alt=""
-              loading="eager"
-              decoding="async"
-              fetchpriority="high"
-            >
+            <video
+              class="product-motion"
+              muted
+              playsinline
+              preload="none"
+              aria-hidden="true"
+              data-webm="pictures/video/genadcs_animation.webm"
+              data-mp4="pictures/video/genadcs_animation.mp4"
+            ></video>
           </div>
           <div class="product-body">
             <div class="product-copy">
@@ -971,14 +983,18 @@
               alt=""
               loading="eager"
               decoding="async"
+              width="1376"
+              height="704"
             >
-            <img
-              class="product-gif"
-              src="pictures/video/saltro_animation_short.gif"
-              alt=""
-              loading="eager"
-              decoding="async"
-            >
+            <video
+              class="product-motion"
+              muted
+              playsinline
+              preload="none"
+              aria-hidden="true"
+              data-webm="pictures/video/saltro_animation.webm"
+              data-mp4="pictures/video/saltro_animation.mp4"
+            ></video>
           </div>
           <div class="product-body">
             <div class="product-copy">
@@ -999,7 +1015,7 @@
               <p class="publication-conference">Accepted, SmallSat Europe 2026</p>
             </div>
             <div class="publication-thumb" aria-hidden="true">
-              <img src="pictures/publications/smallsat_europe.jpg" alt="" loading="lazy" decoding="async">
+              <img src="pictures/publications/smallsat_europe.jpg" alt="" loading="lazy" decoding="async" width="200" height="200">
             </div>
           </article>
 
@@ -1010,7 +1026,7 @@
               <p class="publication-conference">Accepted, SmallSat US 2026</p>
             </div>
             <div class="publication-thumb" aria-hidden="true">
-              <img src="pictures/publications/smallsat_us.png" alt="" loading="lazy" decoding="async">
+              <img src="pictures/publications/smallsat_us.png" alt="" loading="lazy" decoding="async" width="225" height="225">
             </div>
           </article>
 
@@ -1021,7 +1037,7 @@
               <p class="publication-conference">Accepted, SmallSat US 2026</p>
             </div>
             <div class="publication-thumb" aria-hidden="true">
-              <img src="pictures/publications/smallsat_us.png" alt="" loading="lazy" decoding="async">
+              <img src="pictures/publications/smallsat_us.png" alt="" loading="lazy" decoding="async" width="225" height="225">
             </div>
           </article>
 
@@ -1032,7 +1048,7 @@
               <p class="publication-conference">Accepted, 77th International Astronautical Congress</p>
             </div>
             <div class="publication-thumb" aria-hidden="true">
-              <img src="pictures/publications/iaf.png" alt="" loading="lazy" decoding="async">
+              <img src="pictures/publications/iaf.png" alt="" loading="lazy" decoding="async" width="1280" height="1148">
             </div>
           </article>
         </div>
@@ -1137,38 +1153,196 @@
 
   <script>
     (function () {
-      const media = document.querySelectorAll('.product-image, .product-gif');
+      const productMotionVideos = Array.from(document.querySelectorAll('.product-motion'));
 
-      media.forEach((img) => {
-        const decodeImage = () => {
-          if (typeof img.decode === 'function') {
-            img.decode().catch(() => {});
-          }
+      const activateVideoSources = (video) => {
+        if (!video || video.dataset.loaded === 'true') return;
+
+        const webm = video.dataset.webm;
+        const mp4 = video.dataset.mp4;
+
+        if (webm) {
+          const source = document.createElement('source');
+          source.src = webm;
+          source.type = 'video/webm';
+          video.appendChild(source);
+        }
+
+        if (mp4) {
+          const source = document.createElement('source');
+          source.src = mp4;
+          source.type = 'video/mp4';
+          video.appendChild(source);
+        }
+
+        const markReady = () => {
+          video.classList.add('is-ready');
+          video.play().catch(() => {});
         };
 
-        if (img.complete) {
-          decodeImage();
-        } else {
-          img.addEventListener('load', decodeImage, { once: true });
+        if (video.dataset.loopBound !== 'true') {
+          video.dataset.loopBound = 'true';
+          video.addEventListener('ended', () => {
+            video.currentTime = 0.001;
+            video.play().catch(() => {});
+          });
         }
+
+        video.dataset.loaded = 'true';
+        video.addEventListener('loadeddata', markReady, { once: true });
+        video.addEventListener('canplay', markReady, { once: true });
+        video.load();
+      };
+
+      const warmProjectMotion = () => {
+        productMotionVideos.forEach(activateVideoSources);
+      };
+
+      productMotionVideos.forEach((video) => {
+        const primeVideo = () => activateVideoSources(video);
+        const card = video.closest('.product-card');
+        card?.addEventListener('pointerenter', primeVideo, { once: true });
+        card?.addEventListener('focusin', primeVideo, { once: true });
+        card?.addEventListener('touchstart', primeVideo, { once: true, passive: true });
+      });
+
+      requestAnimationFrame(() => {
+        window.setTimeout(warmProjectMotion, 0);
       });
     })();
   </script>
 
   <script>
     const ABOUT_WORK = [
-      'content/work/eth-space.html',
-      'content/work/star-lab.html',
-      'content/work/mit-satellite-team.html',
-      'content/work/mit-rocket-team.html',
-      'content/work/idsc.html',
-      'content/work/rfa.html'
+      {
+        title: 'ETH Space',
+        logo: 'pictures/placeholders/entry-logo.svg',
+        logoAlt: 'ETH Space',
+        logoWidth: 400,
+        logoHeight: 400,
+        image: 'pictures/placeholders/entry-wide.svg',
+        imageAlt: 'ETH Space placeholder image',
+        imageWidth: 1600,
+        imageHeight: 800,
+        start: '2026-02',
+        end: 'current',
+        bodyHTML: '<p>Building the next generation of space systems engineers.</p>'
+      },
+      {
+        title: 'Space Telecommunications, Astronomy and Radiation Laboratory',
+        logo: 'pictures/industry/mitrt.avif',
+        logoAlt: 'Space Telecommunications, Astronomy and Radiation Laboratory',
+        logoWidth: 2500,
+        logoHeight: 1264,
+        image: 'pictures/placeholders/entry-wide.svg',
+        imageAlt: 'STAR Lab placeholder image',
+        imageWidth: 1600,
+        imageHeight: 800,
+        start: '2025-09',
+        end: '2026-01',
+        bodyHTML: '<p><strong>Junior Researcher</strong></p><ul><li>Developing control and estimation architectures for an underactuated CubeSat currently in build phase.</li><li>Implementing embedded flight-software modules for attitude control, state estimation, and fault tolerance.</li><li>Conducting HIL validation of flight dynamics and control algorithms.</li></ul>'
+      },
+      {
+        title: 'MIT Satellite Team',
+        logo: 'pictures/projects/MITSAT.avif',
+        logoAlt: 'MIT Satellite Team',
+        logoWidth: 200,
+        logoHeight: 200,
+        image: 'pictures/placeholders/entry-wide.svg',
+        imageAlt: 'MIT Satellite Team placeholder image',
+        imageWidth: 1600,
+        imageHeight: 800,
+        start: '2025-12',
+        end: '2026-01',
+        bodyHTML: '<ul><li>Mission Design for LEONIRD CubeSat.</li><li>ADCS / Operations Advisory.</li></ul>'
+      },
+      {
+        title: 'MIT Rocket Team',
+        logo: 'pictures/placeholders/entry-logo.svg',
+        logoAlt: 'MIT Rocket Team',
+        logoWidth: 400,
+        logoHeight: 400,
+        image: 'pictures/placeholders/entry-wide.svg',
+        imageAlt: 'MIT Rocket Team placeholder image',
+        imageWidth: 1600,
+        imageHeight: 800,
+        start: '2025-09',
+        end: '2026-01',
+        bodyHTML: '<p><strong>GNC</strong></p><p>Building the Simulink model for a VTVL propeller and liquid-propulsion hopper, including:</p><ul><li>6 DoF dynamics and controller implementation.</li><li>In-depth propeller and aerodynamic disturbance modeling.</li><li>Sensor modeling.</li><li>Monte Carlo simulations.</li><li>CI/CD workflows for test cases, MC, and code generation.</li></ul>'
+      },
+      {
+        title: 'Institute for Dynamic Systems and Control',
+        logo: 'pictures/industry/idsc.avif',
+        logoAlt: 'Institute for Dynamic Systems and Control',
+        logoWidth: 250,
+        logoHeight: 250,
+        image: 'pictures/placeholders/entry-wide.svg',
+        imageAlt: 'IDSC placeholder image',
+        imageWidth: 1600,
+        imageHeight: 800,
+        start: '2025-02',
+        end: '2025-08',
+        bodyHTML: '<p><strong>Head TA</strong></p><p>Organizing the course “Control Systems II” for 330 enrolled students. Managing a team of 9 TAs for:</p><ul><li>Recital sessions.</li><li>Problem set creation.</li><li>Creation and demonstration of case studies using simulation and hardware.</li></ul>'
+      },
+      {
+        title: 'Rocket Factory Augsburg',
+        logo: 'pictures/projects/RFAlaunch.avif',
+        logoAlt: 'Rocket Factory Augsburg',
+        logoWidth: 1200,
+        logoHeight: 675,
+        image: 'pictures/placeholders/entry-wide.svg',
+        imageAlt: 'Rocket Factory Augsburg placeholder image',
+        imageWidth: 1600,
+        imageHeight: 800,
+        start: '2024-09',
+        end: '2025-02',
+        bodyHTML: '<p><strong>GNC Intern</strong></p><ul><li>Created day-of-launch conditions for the RFA One launch vehicle and contributed to launch licensing.</li><li>Automated Monte Carlo pipelines for risk analysis on day-of-launch.</li><li>Reworked MATLAB/Simulink wind and atmospheric models for performance.</li><li>Created post-processing scripts for hardware-in-the-loop simulations.</li><li>Designed, assembled, and integrated weather balloon receiver stations.</li></ul>'
+      }
     ];
 
     const ABOUT_EDUCATION = [
-      'content/education/eth-master.html',
-      'content/education/mit-exchange.html',
-      'content/education/eth-bachelor.html'
+      {
+        title: 'ETH Zurich Master of Mechanical Engineering',
+        logo: 'pictures/education/ethz.avif',
+        logoAlt: 'ETH Zurich',
+        logoWidth: 318,
+        logoHeight: 159,
+        image: 'pictures/placeholders/entry-wide.svg',
+        imageAlt: 'ETH Zurich Master placeholder image',
+        imageWidth: 1600,
+        imageHeight: 800,
+        start: '2025-02',
+        end: '2026-12',
+        bodyHTML: '<p><strong>Master of Science</strong></p><p>Focus on satellite controls, estimation, and autonomy. ESOP Scholarship.</p>'
+      },
+      {
+        title: 'MIT Exchange',
+        logo: 'pictures/education/mit.avif',
+        logoAlt: 'MIT Exchange',
+        logoWidth: 5205,
+        logoHeight: 3403,
+        image: 'pictures/placeholders/entry-wide.svg',
+        imageAlt: 'MIT Exchange placeholder image',
+        imageWidth: 1600,
+        imageHeight: 800,
+        start: '2025-08',
+        end: '2026-01',
+        bodyHTML: '<p><strong>ETH-MIT Exchange Semester</strong></p><p>Courses and UROP projects at MIT AeroAstro.</p>'
+      },
+      {
+        title: 'ETH Zurich Bachelor of Mechanical Engineering',
+        logo: 'pictures/education/ethz.avif',
+        logoAlt: 'ETH Zurich',
+        logoWidth: 318,
+        logoHeight: 159,
+        image: 'pictures/placeholders/entry-wide.svg',
+        imageAlt: 'ETH Zurich Bachelor placeholder image',
+        imageWidth: 1600,
+        imageHeight: 800,
+        start: '2021-09',
+        end: '2024-08',
+        bodyHTML: '<p><strong>Bachelor of Science</strong></p><p>With distinction, double bachelors award.</p>'
+      }
     ];
 
     const ABOUT_PROJECTS = [];
@@ -1210,33 +1384,13 @@
       return `${MONTH_LABELS[start.month - 1]} ${start.year} - ${endLabel}`;
     }
 
-    async function loadAboutList(containerId, urls, tone) {
+    function populateAboutList(containerId, entries, tone) {
       const list = document.getElementById(containerId);
       if (!list) return;
 
-      for (const url of urls) {
-        try {
-          const res = await fetch(url, { cache: 'no-store' });
-          if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
-          const html = await res.text();
-          const doc = new DOMParser().parseFromString(html, 'text/html');
-          const node = doc.querySelector('article#entry');
-          if (!node) throw new Error('No <article id="entry"> found in ' + url);
-
-          const title = node.dataset.title?.trim() || 'Untitled entry';
-          const logo = node.dataset.logo?.trim() || '';
-          const image = node.dataset.image?.trim() || '';
-          const logoAlt = node.dataset.logoAlt?.trim() || title;
-          const imageAlt = node.dataset.imageAlt?.trim() || title;
-          const start = node.dataset.start?.trim() || '';
-          const end = node.dataset.end?.trim() || '';
-          const bodyHTML = (node.querySelector('.entry-copy')?.innerHTML || '').trim();
-
-          list.appendChild(renderAboutCard({ title, logo, image, logoAlt, imageAlt, start, end, bodyHTML, tone }));
-        } catch (err) {
-          console.error('About entry load failed:', url, err);
-        }
-      }
+      entries.forEach((entry) => {
+        list.appendChild(renderAboutCard({ ...entry, tone }));
+      });
     }
 
     function renderAboutCard(entry) {
@@ -1249,6 +1403,8 @@
       card.dataset.title = entry.title;
       card.dataset.image = entry.image;
       card.dataset.imageAlt = entry.imageAlt;
+      card.dataset.imageWidth = String(entry.imageWidth || '');
+      card.dataset.imageHeight = String(entry.imageHeight || '');
       card.dataset.start = entry.start;
       card.dataset.end = entry.end;
       card.dataset.dateLabel = formatDateRange(entry.start, entry.end);
@@ -1258,7 +1414,7 @@
 
       card.innerHTML = `
         <div class="about-card-head">
-          <img class="about-logo" src="${entry.logo}" alt="${entry.logoAlt}" loading="lazy" decoding="async">
+          <img class="about-logo" src="${entry.logo}" alt="${entry.logoAlt}" loading="lazy" decoding="async" width="${entry.logoWidth}" height="${entry.logoHeight}">
           <div class="about-card-meta">
             <h3 class="about-card-title">${entry.title}</h3>
             <p class="about-card-date">${card.dataset.dateLabel}</p>
@@ -1269,13 +1425,11 @@
       return card;
     }
 
-    const aboutContentReady = (async function () {
-      await Promise.all([
-        loadAboutList('about-work-list', ABOUT_WORK, 'work'),
-        loadAboutList('about-education-list', ABOUT_EDUCATION, 'education'),
-        loadAboutList('about-projects-list', ABOUT_PROJECTS, 'projects')
-      ]);
-    })();
+    const aboutContentReady = Promise.resolve().then(() => {
+      populateAboutList('about-work-list', ABOUT_WORK, 'work');
+      populateAboutList('about-education-list', ABOUT_EDUCATION, 'education');
+      populateAboutList('about-projects-list', ABOUT_PROJECTS, 'projects');
+    });
   </script>
 
   <script>
@@ -1487,7 +1641,7 @@
 
       if (aboutDetail) {
         aboutDetail.innerHTML = `
-          <img class="about-detail-image" src="${card.dataset.image}" alt="${card.dataset.imageAlt}" loading="lazy" decoding="async">
+          <img class="about-detail-image" src="${card.dataset.image}" alt="${card.dataset.imageAlt}" loading="lazy" decoding="async" width="${card.dataset.imageWidth}" height="${card.dataset.imageHeight}">
           <h3 class="about-detail-title">${card.dataset.title}</h3>
           <p class="about-detail-date">${card.dataset.dateLabel}</p>
           <div class="about-detail-text">${card.dataset.bodyHtml}</div>
