@@ -5,28 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="dark light" />
   <title>Niclas Scheuer</title>
+  <link rel="preload" as="image" href="pictures/video/genadcs_firstframe.png" />
+  <link rel="preload" as="image" href="pictures/video/genadcs_animation_fast.gif" />
+  <link rel="preload" as="image" href="pictures/video/saltro_firstframe.png" />
+  <link rel="preload" as="image" href="pictures/video/saltro_animation.gif" />
 
   <style>
     :root {
       --bg: #0b0d10;
-      --fg: #e5e7eb;
-      --muted: #a1a1aa;
-      --link: #93c5fd;
+      --bgSoft: #0b0d10;
+      --fg: #f8fafc;
+      --muted: #9fb0c7;
+      --link: #8ec5ff;
       --line: #1f2937;
-      --card: #0f1318;
-      --cardBorder: #1b2330;
-      --shadow: rgba(0,0,0,0.35);
+      --card: rgba(11, 13, 16, 0.82);
+      --cardLight: rgba(248, 250, 252, 0.08);
+      --cardLightHover: rgba(248, 250, 252, 0.12);
+      --cardBorder: rgba(161, 161, 170, 0.3);
+      --shadow: rgba(1, 7, 16, 0.42);
+      --glow: rgba(142, 197, 255, 0.14);
     }
     @media (prefers-color-scheme: light) {
       :root {
-        --bg: #ffffff;
-        --fg: #0b0d10;
-        --muted: #475569;
-        --link: #1d4ed8;
-        --line: #e5e7eb;
-        --card: #ffffff;
-        --cardBorder: #e5e7eb;
-        --shadow: rgba(0,0,0,0.08);
+        --bg: #f5f8fc;
+        --bgSoft: #ffffff;
+        --fg: #0f172a;
+        --muted: #52637d;
+        --link: #0f62fe;
+        --line: rgba(15, 23, 42, 0.08);
+        --card: rgba(255, 255, 255, 0.9);
+        --cardLight: rgba(15, 23, 42, 0.06);
+        --cardLightHover: rgba(15, 23, 42, 0.1);
+        --cardBorder: rgba(15, 23, 42, 0.08);
+        --shadow: rgba(15,23,42,0.10);
+        --glow: rgba(15, 98, 254, 0.08);
       }
     }
 
@@ -35,7 +47,7 @@
       color: var(--fg);
       margin: 0;
       padding: 0;
-      font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      font: 16px/1.6 "Aptos", "Segoe UI", Roboto, Oxygen,
             Ubuntu, Cantarell, "Helvetica Neue", Arial, "Apple Color Emoji",
             "Segoe UI Emoji", "Segoe UI Symbol";
       text-rendering: optimizeLegibility;
@@ -51,6 +63,7 @@
       margin-left: calc(50% - 50vw); /* escape centered layout */
       border-radius: 0;              /* optional: looks cleaner wide */
       overflow: hidden;
+      border-bottom: 1px solid var(--line);
     }
 
     .hero-bg .bg-video {
@@ -84,8 +97,8 @@
       inset: 0;
       background: radial-gradient(
         ellipse at center,
-        rgba(0,0,0,0.25) 0%,
-        rgba(0,0,0,0.55) 70%
+        rgba(6,10,18,0.18) 0%,
+        rgba(4,8,14,0.62) 72%
       );
       pointer-events: none;
     }
@@ -109,7 +122,7 @@
        GENERAL LAYOUT
        ========================= */
     .wrap {
-      max-width: 950px;
+      max-width: 1120px;
       margin: 0 auto;
       padding: 0 18px 40px;
     }
@@ -134,6 +147,7 @@
       font-size: clamp(16px, 2.5vw, 22px);
       color: var(--muted);
       margin-bottom: 8px;
+      max-width: 32ch;
     }
 
     .affiliations a {
@@ -150,7 +164,8 @@
       border-radius: 50%;
       object-fit: cover;
       filter: saturate(1.05);
-      box-shadow: 0 8px 24px var(--shadow);
+      box-shadow: 0 18px 40px var(--shadow);
+      border: 1px solid rgba(255,255,255,0.14);
     }
 
     hr {
@@ -183,10 +198,250 @@
     }
     .links a:hover { border-color: currentColor; }
 
+    .products {
+      padding: 34px 0 92px;
+    }
+
+    .section-label {
+      width: fit-content;
+      margin: 0 auto 24px;
+      padding-bottom: 2px;
+      border-bottom: 1px solid var(--cardBorder);
+      color: var(--fg);
+      font-size: 0.95rem;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .product-card {
+      position: relative;
+      display: block;
+      min-height: 360px;
+      border-radius: 28px;
+      background: var(--card);
+      box-shadow: 0 20px 50px var(--shadow);
+      overflow: hidden;
+      isolation: isolate;
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 240ms ease, box-shadow 240ms ease, border-color 240ms ease;
+    }
+
+    .product-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(248, 250, 252, 0.68);
+      border-radius: inherit;
+      background: radial-gradient(circle at top left, var(--glow), transparent 48%);
+      transition: inset 240ms ease, border-color 240ms ease;
+      pointer-events: none;
+    }
+
+    .product-card:hover,
+    .product-card:focus-within {
+      transform: none;
+      box-shadow: 0 22px 54px rgba(1, 7, 16, 0.48);
+    }
+
+    .product-card:hover::before,
+    .product-card:focus-within::before {
+      inset: 2px;
+      border-color: rgba(161, 161, 170, 0.55);
+    }
+
+    .product-media {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      overflow: hidden;
+      background: linear-gradient(145deg, rgba(19, 39, 67, 0.95), rgba(7, 17, 31, 0.75));
+    }
+
+    .product-media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(4, 8, 14, 0.04), rgba(4, 8, 14, 0.34));
+      pointer-events: none;
+    }
+
+    .product-image,
+    .product-gif {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      will-change: opacity, transform;
+      backface-visibility: hidden;
+      transition: opacity 220ms ease, transform 320ms ease, filter 220ms ease;
+    }
+
+    .product-image {
+      opacity: 1;
+      filter: saturate(0.9);
+    }
+
+    .product-gif {
+      opacity: 0;
+      transform: scale(1.04);
+    }
+
+    .product-media.contain .product-image,
+    .product-media.contain .product-gif {
+      object-fit: contain;
+      background: #05070a;
+    }
+
+    .product-card:hover .product-image,
+    .product-card:focus-within .product-image {
+      opacity: 0;
+      transform: scale(1.03);
+    }
+
+    .product-card:hover .product-gif,
+    .product-card:focus-within .product-gif {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .product-body {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 28px;
+      background: linear-gradient(180deg, rgba(6, 10, 18, 0.08), rgba(6, 10, 18, 0.48));
+    }
+
+    .product-copy {
+      transform: translateY(12px);
+      will-change: transform;
+      transition: transform 240ms ease;
+    }
+
+    .product-card:hover .product-copy,
+    .product-card:focus-within .product-copy {
+      transform: translateY(-2px);
+    }
+
+    .product-title {
+      margin: 0;
+      font-size: clamp(28px, 3vw, 38px);
+      line-height: 1.06;
+      letter-spacing: -0.04em;
+      font-weight: 300;
+      text-shadow: 0 10px 30px rgba(0, 0, 0, 0.24);
+    }
+
+    .product-description {
+      margin: 10px auto 0;
+      max-width: 24ch;
+      color: rgba(248, 250, 252, 0.84);
+      font-size: 0.98rem;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 220ms ease, transform 220ms ease;
+    }
+
+    .product-card:hover .product-description,
+    .product-card:focus-within .product-description {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .publications {
+      padding: 44px 0 0;
+    }
+
+    .publication-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 2px;
+    }
+
+    .publication-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 108px;
+      gap: 18px;
+      align-items: center;
+      padding: 18px 20px;
+      border-radius: 22px;
+      background: var(--cardLight);
+      color: inherit;
+      text-decoration: none;
+      transition: background-color 180ms ease;
+    }
+
+    .publication-card:hover,
+    .publication-card:focus-within {
+      background: var(--cardLightHover);
+    }
+
+    .publication-copy {
+      min-width: 0;
+    }
+
+    .publication-title,
+    .publication-authors,
+    .publication-conference {
+      margin: 0;
+    }
+
+    .publication-title {
+      font-size: 1.02rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .publication-authors {
+      margin-top: 6px;
+      color: var(--fg);
+      font-weight: 400;
+    }
+
+    .publication-conference {
+      margin-top: 4px;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .publication-thumb {
+      width: 108px;
+      aspect-ratio: 1;
+      border-radius: 16px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04)),
+        rgba(255,255,255,0.03);
+      overflow: hidden;
+    }
+
     @media (max-width: 720px) {
       .header { grid-template-columns: 1fr; }
       .avatar { justify-self: start; }
       .intro { margin-left: 0.75rem; }
+      .products { padding: 56px 0 72px; }
+      .product-grid { grid-template-columns: 1fr; }
+      .product-card { min-height: 300px; }
+      .product-body { padding: 22px; }
+      .publication-card {
+        grid-template-columns: 1fr;
+      }
+      .publication-thumb {
+        width: 96px;
+        justify-self: end;
+      }
     }
   </style>
 </head>
@@ -243,6 +498,107 @@
     </div>
   </section>
 
+  <main class="wrap">
+    <section class="products" aria-label="Products">
+      <div class="section-label">Open-Source Projects</div>
+
+      <div class="product-grid">
+        <a class="product-card" href="https://nscheuer.github.io/Generalized_ADCS/" aria-label="Generalized ADCS">
+          <div class="product-media" aria-hidden="true">
+            <img
+              class="product-image"
+              src="pictures/video/genadcs_firstframe.png"
+              alt=""
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+            >
+            <img
+              class="product-gif"
+              src="pictures/video/genadcs_animation_fast.gif"
+              alt=""
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+            >
+          </div>
+          <div class="product-body">
+            <div class="product-copy">
+              <h3 class="product-title">Generalized ADCS</h3>
+              <p class="product-description">Python-based satellite ADCS for all</p>
+            </div>
+          </div>
+        </a>
+
+        <a class="product-card" href="https://nscheuer.github.io/SALTRO/" aria-label="SALTRO">
+          <div class="product-media contain" aria-hidden="true">
+            <img
+              class="product-image"
+              src="pictures/video/saltro_firstframe.png"
+              alt=""
+              loading="eager"
+              decoding="async"
+            >
+            <img
+              class="product-gif"
+              src="pictures/video/saltro_animation.gif"
+              alt=""
+              loading="eager"
+              decoding="async"
+            >
+          </div>
+          <div class="product-body">
+            <div class="product-copy">
+              <h3 class="product-title">SALTRO</h3>
+              <p class="product-description">Flight-Ready Attitude Trajectory Planning</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <section class="publications" aria-label="Publications">
+        <div class="section-label">Publications</div>
+        <div class="publication-list">
+          <article class="publication-card" aria-label="A Modular Open-Source Python Framework for Small Satellite Attitude Determination and Control">
+            <div class="publication-copy">
+              <p class="publication-title">A Modular Open-Source Python Framework for Small Satellite Attitude Determination and Control</p>
+              <p class="publication-authors">Patrick McKeen, Niclas Scheuer, Kerri Cahoy</p>
+              <p class="publication-conference">Accepted, SmallSat Europe 2026</p>
+            </div>
+            <div class="publication-thumb" aria-hidden="true"></div>
+          </article>
+
+          <article class="publication-card" aria-label="A Feasibility-Aware Attitude Trajectory Planner for Underactuated and Unconventionally Actuated Small Satellites">
+            <div class="publication-copy">
+              <p class="publication-title">A Feasibility-Aware Attitude Trajectory Planner for Underactuated and Unconventionally Actuated Small Satellites</p>
+              <p class="publication-authors">Patrick McKeen, Niclas Scheuer, Kerri Cahoy</p>
+              <p class="publication-conference">Accepted, SmallSat US 2026</p>
+            </div>
+            <div class="publication-thumb" aria-hidden="true"></div>
+          </article>
+
+          <article class="publication-card" aria-label="Generalized Attitude Control Allocation for Small Spacecraft">
+            <div class="publication-copy">
+              <p class="publication-title">Generalized Attitude Control Allocation for Small Spacecraft</p>
+              <p class="publication-authors">Patrick McKeen, Niclas Scheuer, Kerri Cahoy</p>
+              <p class="publication-conference">Accepted, SmallSat US 2026</p>
+            </div>
+            <div class="publication-thumb" aria-hidden="true"></div>
+          </article>
+
+          <article class="publication-card" aria-label="One Wheel Is Enough: Control Strategies for the 3+1 Actuator Architecture Across Small Satellite Mission Profiles">
+            <div class="publication-copy">
+              <p class="publication-title">One Wheel Is Enough: Control Strategies for the 3+1 Actuator Architecture Across Small Satellite Mission Profiles</p>
+              <p class="publication-authors">Patrick McKeen, Niclas Scheuer, Kerri Cahoy</p>
+              <p class="publication-conference">Accepted, 77th International Astronautical Congress</p>
+            </div>
+            <div class="publication-thumb" aria-hidden="true"></div>
+          </article>
+        </div>
+      </section>
+    </section>
+  </main>
+
   <script>
     // Smooth fade-in once the video can play (or has loaded enough to start).
     (function () {
@@ -269,6 +625,26 @@
       video.play().catch(() => {
         // Keep poster; you could optionally still markReady() if you want it visible.
         markReady();
+      });
+    })();
+  </script>
+
+  <script>
+    (function () {
+      const media = document.querySelectorAll('.product-image, .product-gif');
+
+      media.forEach((img) => {
+        const decodeImage = () => {
+          if (typeof img.decode === 'function') {
+            img.decode().catch(() => {});
+          }
+        };
+
+        if (img.complete) {
+          decodeImage();
+        } else {
+          img.addEventListener('load', decodeImage, { once: true });
+        }
       });
     })();
   </script>
