@@ -24,6 +24,9 @@
       --cardBorder: rgba(161, 161, 170, 0.3);
       --shadow: rgba(1, 7, 16, 0.42);
       --glow: rgba(142, 197, 255, 0.14);
+      --work-rgb: 15, 98, 254;
+      --education-rgb: 48, 166, 150;
+      --projects-rgb: 227, 122, 102;
     }
     @media (prefers-color-scheme: light) {
       :root {
@@ -39,6 +42,9 @@
         --cardBorder: rgba(15, 23, 42, 0.08);
         --shadow: rgba(15,23,42,0.10);
         --glow: rgba(15, 98, 254, 0.08);
+        --work-rgb: 15, 98, 254;
+        --education-rgb: 48, 166, 150;
+        --projects-rgb: 227, 122, 102;
       }
     }
 
@@ -469,7 +475,6 @@
     .about-timeline {
       position: relative;
       min-height: 360px;
-      padding-left: 74px;
     }
 
     .about-timeline.hidden {
@@ -480,9 +485,10 @@
       position: absolute;
       top: 10px;
       bottom: 10px;
-      left: 58px;
-      width: 1px;
+      left: 50%;
+      width: 2px;
       background: var(--cardBorder);
+      transform: translateX(-50%);
     }
 
     .about-timeline-years {
@@ -503,17 +509,64 @@
 
     .about-timeline-year-label {
       display: block;
+      width: calc(50% - 22px);
+      text-align: right;
       padding-right: 20px;
     }
 
     .about-timeline-year-tick {
       position: absolute;
       top: 50%;
-      left: -18px;
+      left: calc(50% - 12px);
       width: 12px;
       height: 1px;
       background: var(--cardBorder);
       transform: translateY(-50%);
+    }
+
+    .about-timeline-now {
+      position: absolute;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.95);
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
+      animation: timelinePulse 2.4s ease-out infinite;
+    }
+
+    .about-timeline-range {
+      stroke: rgba(255, 255, 255, 0.2);
+      stroke-width: 1.6;
+      transition: stroke 120ms ease, stroke-width 120ms ease;
+    }
+
+    .about-timeline-range-cap {
+      stroke: rgba(255, 255, 255, 0.2);
+      stroke-width: 1.6;
+      transition: stroke 120ms ease, stroke-width 120ms ease;
+    }
+
+    .about-timeline-range.tone-work,
+    .about-timeline-range-cap.tone-work {
+      --tone-rgb: var(--work-rgb);
+    }
+
+    .about-timeline-range.tone-education,
+    .about-timeline-range-cap.tone-education {
+      --tone-rgb: var(--education-rgb);
+    }
+
+    .about-timeline-range.tone-projects,
+    .about-timeline-range-cap.tone-projects {
+      --tone-rgb: var(--projects-rgb);
+    }
+
+    .about-timeline-range.is-highlighted,
+    .about-timeline-range-cap.is-highlighted {
+      stroke: rgba(var(--tone-rgb), 0.95);
+      stroke-width: 2.6;
     }
 
     .about-detail {
@@ -527,7 +580,7 @@
 
     .about-detail-image {
       width: 100%;
-      aspect-ratio: 4 / 5;
+      aspect-ratio: 2 / 1;
       object-fit: cover;
       border-radius: 18px;
       display: block;
@@ -560,7 +613,7 @@
     }
 
     .about-tab {
-      background: transparent;
+      background: rgba(255, 255, 255, 0.03);
       border: 1px solid transparent;
       border-radius: 999px;
       padding: 7px 14px;
@@ -571,10 +624,37 @@
       transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
     }
 
-    .about-tab.active {
+    .about-tab[data-tone="work"] {
+      color: rgba(var(--work-rgb), 0.96);
+      border-color: rgba(var(--work-rgb), 0.32);
+    }
+
+    .about-tab[data-tone="education"] {
+      color: rgba(var(--education-rgb), 0.96);
+      border-color: rgba(var(--education-rgb), 0.32);
+    }
+
+    .about-tab[data-tone="projects"] {
+      color: rgba(var(--projects-rgb), 0.96);
+      border-color: rgba(var(--projects-rgb), 0.32);
+    }
+
+    .about-tab[data-tone="work"].active {
       color: #ffffff;
-      background: #0f62fe;
-      border-color: #0f62fe;
+      background: rgb(var(--work-rgb));
+      border-color: rgb(var(--work-rgb));
+    }
+
+    .about-tab[data-tone="education"].active {
+      color: #ffffff;
+      background: rgb(var(--education-rgb));
+      border-color: rgb(var(--education-rgb));
+    }
+
+    .about-tab[data-tone="projects"].active {
+      color: #ffffff;
+      background: rgb(var(--projects-rgb));
+      border-color: rgb(var(--projects-rgb));
     }
 
     .about-tab:hover {
@@ -599,16 +679,33 @@
       border-radius: 18px;
       padding: 14px 16px;
       cursor: pointer;
-      transition: background-color 180ms ease;
+      transition: background-color 120ms ease, box-shadow 120ms ease;
     }
 
     .about-card:hover,
     .about-card:focus-within {
-      background: var(--cardLightHover);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
     }
 
-    .about-card.active {
-      background: var(--cardLightHover);
+    .about-card[data-tone="work"]:hover,
+    .about-card[data-tone="work"]:focus-within,
+    .about-card[data-tone="work"].is-hovered,
+    .about-card[data-tone="work"].active {
+      background: rgba(var(--work-rgb), 0.14);
+    }
+
+    .about-card[data-tone="education"]:hover,
+    .about-card[data-tone="education"]:focus-within,
+    .about-card[data-tone="education"].is-hovered,
+    .about-card[data-tone="education"].active {
+      background: rgba(var(--education-rgb), 0.14);
+    }
+
+    .about-card[data-tone="projects"]:hover,
+    .about-card[data-tone="projects"]:focus-within,
+    .about-card[data-tone="projects"].is-hovered,
+    .about-card[data-tone="projects"].active {
+      background: rgba(var(--projects-rgb), 0.16);
     }
 
     .about-card-head {
@@ -653,6 +750,18 @@
       pointer-events: none;
       overflow: visible;
       z-index: 0;
+    }
+
+    @keyframes timelinePulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.45);
+      }
+      70% {
+        box-shadow: 0 0 0 12px rgba(255, 255, 255, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+      }
     }
 
     @media (max-width: 720px) {
@@ -858,26 +967,27 @@
             <div class="about-timeline" id="about-timeline" aria-hidden="true">
               <div class="about-timeline-axis" id="about-timeline-axis"></div>
               <div class="about-timeline-years" id="about-timeline-years"></div>
+              <div class="about-timeline-now" id="about-timeline-now" aria-hidden="true"></div>
             </div>
             <div class="about-detail" id="about-detail" aria-live="polite"></div>
           </aside>
 
           <div class="about-main">
             <nav class="about-tabs" aria-label="About categories">
-              <button class="about-tab active" data-target="about-work" aria-selected="true">Work</button>
-              <button class="about-tab" data-target="about-education" aria-selected="false">Education</button>
-              <button class="about-tab" data-target="about-projects" aria-selected="false">Projects</button>
+              <button class="about-tab active" data-target="about-work" data-tone="work" aria-selected="true">Work</button>
+              <button class="about-tab" data-target="about-education" data-tone="education" aria-selected="false">Education</button>
+              <button class="about-tab" data-target="about-projects" data-tone="projects" aria-selected="false">Projects</button>
             </nav>
 
-            <section class="about-panel active" id="about-work">
+            <section class="about-panel active" id="about-work" data-tone="work">
               <div class="about-list" id="about-work-list"></div>
             </section>
 
-            <section class="about-panel" id="about-education">
+            <section class="about-panel" id="about-education" data-tone="education">
               <div class="about-list" id="about-education-list"></div>
             </section>
 
-            <section class="about-panel" id="about-projects">
+            <section class="about-panel" id="about-projects" data-tone="projects">
               <div class="about-list" id="about-projects-list"></div>
             </section>
           </div>
@@ -938,26 +1048,34 @@
 
   <script>
     const ABOUT_WORK = [
-      'content/work/starlab.html',
-      'content/work/ssc.html',
-      'content/work/mit-rtl.html'
+      'content/work/eth-space.html',
+      'content/work/star-lab.html',
+      'content/work/mit-satellite-team.html',
+      'content/work/mit-rocket-team.html',
+      'content/work/idsc.html',
+      'content/work/rfa.html'
     ];
 
     const ABOUT_EDUCATION = [
-      'content/education/eth-zurich.html',
-      'content/education/mit.html',
-      'content/education/esop.html'
+      'content/education/eth-master.html',
+      'content/education/mit-exchange.html',
+      'content/education/eth-bachelor.html'
     ];
 
-    const ABOUT_PROJECTS = [
-      'content/projects/beavercube2.html',
-      'content/projects/amundsen.html',
-      'content/projects/minimal-robot.html'
-    ];
+    const ABOUT_PROJECTS = [];
 
     const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
     function parseYearMonth(value) {
+      if ((value || '').toLowerCase() === 'current') {
+        const now = new Date();
+        return {
+          year: now.getFullYear(),
+          month: now.getMonth() + 1,
+          monthIndex: now.getFullYear() * 12 + now.getMonth()
+        };
+      }
+
       const [yearText, monthText] = (value || '').split('-');
       const year = Number.parseInt(yearText, 10);
       const month = Number.parseInt(monthText, 10);
@@ -977,10 +1095,13 @@
       const start = parseYearMonth(startValue);
       const end = parseYearMonth(endValue);
       if (!start || !end) return '';
-      return `${MONTH_LABELS[start.month - 1]} ${start.year} - ${MONTH_LABELS[end.month - 1]} ${end.year}`;
+      const endLabel = (endValue || '').toLowerCase() === 'current'
+        ? 'Current'
+        : `${MONTH_LABELS[end.month - 1]} ${end.year}`;
+      return `${MONTH_LABELS[start.month - 1]} ${start.year} - ${endLabel}`;
     }
 
-    async function loadAboutList(containerId, urls) {
+    async function loadAboutList(containerId, urls, tone) {
       const list = document.getElementById(containerId);
       if (!list) return;
 
@@ -1002,7 +1123,7 @@
           const end = node.dataset.end?.trim() || '';
           const bodyHTML = (node.querySelector('.entry-copy')?.innerHTML || '').trim();
 
-          list.appendChild(renderAboutCard({ title, logo, image, logoAlt, imageAlt, start, end, bodyHTML }));
+          list.appendChild(renderAboutCard({ title, logo, image, logoAlt, imageAlt, start, end, bodyHTML, tone }));
         } catch (err) {
           console.error('About entry load failed:', url, err);
         }
@@ -1023,6 +1144,8 @@
       card.dataset.end = entry.end;
       card.dataset.dateLabel = formatDateRange(entry.start, entry.end);
       card.dataset.bodyHtml = entry.bodyHTML;
+      card.dataset.tone = entry.tone;
+      card.dataset.entryId = `${entry.tone}-${entry.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 
       card.innerHTML = `
         <div class="about-card-head">
@@ -1039,9 +1162,9 @@
 
     const aboutContentReady = (async function () {
       await Promise.all([
-        loadAboutList('about-work-list', ABOUT_WORK),
-        loadAboutList('about-education-list', ABOUT_EDUCATION),
-        loadAboutList('about-projects-list', ABOUT_PROJECTS)
+        loadAboutList('about-work-list', ABOUT_WORK, 'work'),
+        loadAboutList('about-education-list', ABOUT_EDUCATION, 'education'),
+        loadAboutList('about-projects-list', ABOUT_PROJECTS, 'projects')
       ]);
     })();
   </script>
@@ -1053,8 +1176,10 @@
     const aboutTimeline = document.getElementById('about-timeline');
     const aboutTimelineAxis = document.getElementById('about-timeline-axis');
     const aboutTimelineYears = document.getElementById('about-timeline-years');
+    const aboutTimelineNow = document.getElementById('about-timeline-now');
     const aboutConnections = document.getElementById('about-connections');
     const aboutDetail = document.getElementById('about-detail');
+    let hoveredAboutEntryId = null;
 
     function getActiveAboutCards() {
       const list = document.querySelector('.about-panel.active .about-list');
@@ -1062,13 +1187,14 @@
     }
 
     function renderAboutTimeline() {
-      if (!aboutGrid || !aboutTimeline || !aboutTimelineAxis || !aboutTimelineYears || !aboutConnections) {
+      if (!aboutGrid || !aboutTimeline || !aboutTimelineAxis || !aboutTimelineYears || !aboutConnections || !aboutTimelineNow) {
         return;
       }
 
       if (aboutDetail && aboutDetail.classList.contains('active')) {
         aboutTimeline.classList.add('hidden');
         aboutConnections.innerHTML = '';
+        aboutTimelineNow.style.display = 'none';
         return;
       }
 
@@ -1082,6 +1208,8 @@
           card,
           start,
           end,
+          tone: card.dataset.tone || 'work',
+          entryId: card.dataset.entryId || '',
           title: card.dataset.title || '',
           dateLabel: card.dataset.dateLabel || ''
         };
@@ -1091,6 +1219,7 @@
         aboutTimeline.classList.remove('hidden');
         aboutTimelineYears.innerHTML = '';
         aboutConnections.innerHTML = '';
+        aboutTimelineNow.style.display = 'none';
         return;
       }
 
@@ -1110,7 +1239,7 @@
       const totalMonths = Math.max(rangeEndExclusive - rangeStart, 1);
 
       const monthToY = (monthIndex) => {
-        const ratio = (monthIndex - rangeStart) / totalMonths;
+        const ratio = (rangeEndExclusive - monthIndex) / totalMonths;
         return topPadding + (ratio * usableHeight);
       };
 
@@ -1128,6 +1257,13 @@
         }
       ).join('');
 
+      const now = new Date();
+      const currentMonthIndex = (now.getFullYear() * 12) + now.getMonth();
+      const clampedCurrentMonth = Math.min(Math.max(currentMonthIndex, rangeStart), rangeEndExclusive);
+      const nowY = monthToY(clampedCurrentMonth);
+      aboutTimelineNow.style.top = `${nowY}px`;
+      aboutTimelineNow.style.display = '';
+
       if (window.matchMedia('(max-width: 720px)').matches) {
         aboutConnections.innerHTML = '';
         return;
@@ -1141,28 +1277,38 @@
 
       aboutConnections.setAttribute('viewBox', `0 0 ${Math.max(aboutGrid.clientWidth, 1)} ${Math.max(aboutGrid.clientHeight, 1)}`);
       aboutConnections.innerHTML = entries.map((entry, index) => {
-        const cardRect = entry.card.getBoundingClientRect();
         const startY = timelineOffsetY + monthToY(entry.start.monthIndex);
         const endY = timelineOffsetY + monthToY(entry.end.monthIndex + 1);
-        const middleY = (startY + endY) / 2;
-        const cardY = (cardRect.top - gridRect.top) + (cardRect.height / 2);
-        const cardX = cardRect.left - gridRect.left;
-        const gapWidth = Math.max(cardX - timelineX, 80);
-        const elbowX = timelineX + Math.min(Math.max(gapWidth * 0.48, 56), gapWidth - 22);
-        const rangeX = timelineX + 12 + ((index % 4) * 5);
+        const rangeX = timelineX + 18 + (index * 14);
         const startCapX1 = rangeX - 4;
         const startCapX2 = rangeX + 4;
-        const points = `${cardX},${cardY} ${elbowX},${cardY} ${elbowX},${middleY} ${rangeX},${middleY}`;
+        const highlighted = entry.entryId === hoveredAboutEntryId ? ' is-highlighted' : '';
 
         return `
           <g>
-            <line x1="${rangeX}" y1="${startY}" x2="${rangeX}" y2="${endY}" style="stroke: var(--cardBorder); stroke-width: 1;"></line>
-            <line x1="${startCapX1}" y1="${startY}" x2="${startCapX2}" y2="${startY}" style="stroke: var(--cardBorder); stroke-width: 1;"></line>
-            <line x1="${startCapX1}" y1="${endY}" x2="${startCapX2}" y2="${endY}" style="stroke: var(--cardBorder); stroke-width: 1;"></line>
-            <polyline points="${points}" style="fill: none; stroke: var(--link); stroke-opacity: 0.34; stroke-width: 1.25; stroke-linecap: square; stroke-linejoin: miter;"></polyline>
+            <line class="about-timeline-range tone-${entry.tone}${highlighted}" x1="${rangeX}" y1="${startY}" x2="${rangeX}" y2="${endY}"></line>
+            <line class="about-timeline-range-cap tone-${entry.tone}${highlighted}" x1="${startCapX1}" y1="${startY}" x2="${startCapX2}" y2="${startY}"></line>
+            <line class="about-timeline-range-cap tone-${entry.tone}${highlighted}" x1="${startCapX1}" y1="${endY}" x2="${startCapX2}" y2="${endY}"></line>
           </g>
         `;
       }).join('');
+    }
+
+    function setHoveredAboutEntry(entryId) {
+      hoveredAboutEntryId = entryId;
+      document.querySelectorAll('.about-card').forEach((card) => {
+        card.classList.toggle('is-hovered', card.dataset.entryId === entryId);
+      });
+      requestAnimationFrame(renderAboutTimeline);
+    }
+
+    function clearHoveredAboutEntry(entryId) {
+      if (entryId && hoveredAboutEntryId !== entryId) return;
+      hoveredAboutEntryId = null;
+      document.querySelectorAll('.about-card').forEach((card) => {
+        card.classList.remove('is-hovered');
+      });
+      requestAnimationFrame(renderAboutTimeline);
     }
 
     function clearAboutSelection() {
@@ -1179,12 +1325,46 @@
       requestAnimationFrame(renderAboutTimeline);
     }
 
-    document.addEventListener('click', (event) => {
+    document.addEventListener('pointerover', (event) => {
       const card = event.target.closest('.about-card');
       if (!card) return;
+      setHoveredAboutEntry(card.dataset.entryId);
+    });
+
+    document.addEventListener('pointerout', (event) => {
+      const card = event.target.closest('.about-card');
+      if (!card) return;
+      if (card.contains(event.relatedTarget)) return;
+      clearHoveredAboutEntry(card.dataset.entryId);
+    });
+
+    document.addEventListener('focusin', (event) => {
+      const card = event.target.closest('.about-card');
+      if (!card) return;
+      setHoveredAboutEntry(card.dataset.entryId);
+    });
+
+    document.addEventListener('focusout', (event) => {
+      const card = event.target.closest('.about-card');
+      if (!card) return;
+      if (card.contains(event.relatedTarget)) return;
+      clearHoveredAboutEntry(card.dataset.entryId);
+    });
+
+    document.addEventListener('click', (event) => {
+      const card = event.target.closest('.about-card');
+      if (!card) {
+        const clickedDetail = event.target.closest('#about-detail');
+        if (aboutDetail && aboutDetail.classList.contains('active') && !clickedDetail) {
+          clearAboutSelection();
+          clearHoveredAboutEntry();
+        }
+        return;
+      }
 
       const isActive = card.classList.contains('active');
       clearAboutSelection();
+      clearHoveredAboutEntry();
 
       if (isActive) {
         return;
@@ -1237,6 +1417,7 @@
         });
 
         clearAboutSelection();
+        clearHoveredAboutEntry();
       });
     });
 
