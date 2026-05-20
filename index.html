@@ -439,6 +439,7 @@
     }
 
     .about-grid {
+      position: relative;
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
       gap: 26px;
@@ -447,6 +448,14 @@
 
     .about-side {
       min-width: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-main {
+      min-width: 0;
+      position: relative;
+      z-index: 1;
     }
 
     .about-heading {
@@ -455,6 +464,56 @@
       font-weight: 700;
       letter-spacing: 0.05em;
       text-transform: uppercase;
+    }
+
+    .about-timeline {
+      position: relative;
+      min-height: 360px;
+      padding-left: 74px;
+    }
+
+    .about-timeline.hidden {
+      display: none;
+    }
+
+    .about-timeline-axis {
+      position: absolute;
+      top: 10px;
+      bottom: 10px;
+      left: 58px;
+      width: 1px;
+      background: var(--cardBorder);
+    }
+
+    .about-timeline-years {
+      position: relative;
+      min-height: 100%;
+    }
+
+    .about-timeline-year {
+      position: absolute;
+      left: 0;
+      right: 0;
+      transform: translateY(-50%);
+      min-height: 18px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1;
+    }
+
+    .about-timeline-year-label {
+      display: block;
+      padding-right: 20px;
+    }
+
+    .about-timeline-year-tick {
+      position: absolute;
+      top: 50%;
+      left: -18px;
+      width: 12px;
+      height: 1px;
+      background: var(--cardBorder);
+      transform: translateY(-50%);
     }
 
     .about-detail {
@@ -474,14 +533,23 @@
       display: block;
     }
 
-    .about-detail-text {
+    .about-detail-title {
       margin: 16px 0 0;
-      color: var(--muted);
-      font-size: 0.98rem;
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.35;
     }
 
-    .about-main {
-      min-width: 0;
+    .about-detail-date {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .about-detail-text {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 0.98rem;
     }
 
     .about-tabs {
@@ -550,6 +618,10 @@
       align-items: center;
     }
 
+    .about-card-meta {
+      min-width: 0;
+    }
+
     .about-logo {
       width: 48px;
       aspect-ratio: 1;
@@ -564,6 +636,23 @@
       font-size: 0.98rem;
       font-weight: 500;
       line-height: 1.35;
+    }
+
+    .about-card-date {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.25;
+    }
+
+    .about-connections {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: visible;
+      z-index: 0;
     }
 
     @media (max-width: 720px) {
@@ -590,6 +679,12 @@
       .about-tabs {
         gap: 14px;
         flex-wrap: wrap;
+      }
+      .about-timeline {
+        min-height: 260px;
+      }
+      .about-connections {
+        display: none;
       }
     }
   </style>
@@ -756,8 +851,14 @@
 
       <section class="about" aria-label="About me">
         <div class="about-grid">
+          <svg class="about-connections" id="about-connections" aria-hidden="true"></svg>
+
           <aside class="about-side">
             <h2 class="about-heading">About Me</h2>
+            <div class="about-timeline" id="about-timeline" aria-hidden="true">
+              <div class="about-timeline-axis" id="about-timeline-axis"></div>
+              <div class="about-timeline-years" id="about-timeline-years"></div>
+            </div>
             <div class="about-detail" id="about-detail" aria-live="polite"></div>
           </aside>
 
@@ -854,6 +955,31 @@
       'content/projects/minimal-robot.html'
     ];
 
+    const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    function parseYearMonth(value) {
+      const [yearText, monthText] = (value || '').split('-');
+      const year = Number.parseInt(yearText, 10);
+      const month = Number.parseInt(monthText, 10);
+
+      if (!Number.isFinite(year) || !Number.isFinite(month)) {
+        return null;
+      }
+
+      return {
+        year,
+        month,
+        monthIndex: year * 12 + (month - 1)
+      };
+    }
+
+    function formatDateRange(startValue, endValue) {
+      const start = parseYearMonth(startValue);
+      const end = parseYearMonth(endValue);
+      if (!start || !end) return '';
+      return `${MONTH_LABELS[start.month - 1]} ${start.year} - ${MONTH_LABELS[end.month - 1]} ${end.year}`;
+    }
+
     async function loadAboutList(containerId, urls) {
       const list = document.getElementById(containerId);
       if (!list) return;
@@ -872,9 +998,11 @@
           const image = node.dataset.image?.trim() || '';
           const logoAlt = node.dataset.logoAlt?.trim() || title;
           const imageAlt = node.dataset.imageAlt?.trim() || title;
+          const start = node.dataset.start?.trim() || '';
+          const end = node.dataset.end?.trim() || '';
           const bodyHTML = (node.querySelector('.entry-copy')?.innerHTML || '').trim();
 
-          list.appendChild(renderAboutCard({ title, logo, image, logoAlt, imageAlt, bodyHTML }));
+          list.appendChild(renderAboutCard({ title, logo, image, logoAlt, imageAlt, start, end, bodyHTML }));
         } catch (err) {
           console.error('About entry load failed:', url, err);
         }
@@ -891,27 +1019,151 @@
       card.dataset.title = entry.title;
       card.dataset.image = entry.image;
       card.dataset.imageAlt = entry.imageAlt;
+      card.dataset.start = entry.start;
+      card.dataset.end = entry.end;
+      card.dataset.dateLabel = formatDateRange(entry.start, entry.end);
       card.dataset.bodyHtml = entry.bodyHTML;
 
       card.innerHTML = `
         <div class="about-card-head">
           <img class="about-logo" src="${entry.logo}" alt="${entry.logoAlt}" loading="lazy" decoding="async">
-          <h3 class="about-card-title">${entry.title}</h3>
+          <div class="about-card-meta">
+            <h3 class="about-card-title">${entry.title}</h3>
+            <p class="about-card-date">${card.dataset.dateLabel}</p>
+          </div>
         </div>
       `;
 
       return card;
     }
 
-    loadAboutList('about-work-list', ABOUT_WORK);
-    loadAboutList('about-education-list', ABOUT_EDUCATION);
-    loadAboutList('about-projects-list', ABOUT_PROJECTS);
+    const aboutContentReady = (async function () {
+      await Promise.all([
+        loadAboutList('about-work-list', ABOUT_WORK),
+        loadAboutList('about-education-list', ABOUT_EDUCATION),
+        loadAboutList('about-projects-list', ABOUT_PROJECTS)
+      ]);
+    })();
   </script>
 
   <script>
+    const aboutGrid = document.querySelector('.about-grid');
     const aboutTabs = document.querySelectorAll('.about-tab');
     const aboutPanels = document.querySelectorAll('.about-panel');
+    const aboutTimeline = document.getElementById('about-timeline');
+    const aboutTimelineAxis = document.getElementById('about-timeline-axis');
+    const aboutTimelineYears = document.getElementById('about-timeline-years');
+    const aboutConnections = document.getElementById('about-connections');
     const aboutDetail = document.getElementById('about-detail');
+
+    function getActiveAboutCards() {
+      const list = document.querySelector('.about-panel.active .about-list');
+      return list ? Array.from(list.querySelectorAll('.about-card')) : [];
+    }
+
+    function renderAboutTimeline() {
+      if (!aboutGrid || !aboutTimeline || !aboutTimelineAxis || !aboutTimelineYears || !aboutConnections) {
+        return;
+      }
+
+      if (aboutDetail && aboutDetail.classList.contains('active')) {
+        aboutTimeline.classList.add('hidden');
+        aboutConnections.innerHTML = '';
+        return;
+      }
+
+      const cards = getActiveAboutCards();
+      const entries = cards.map((card) => {
+        const start = parseYearMonth(card.dataset.start);
+        const end = parseYearMonth(card.dataset.end);
+        if (!start || !end) return null;
+
+        return {
+          card,
+          start,
+          end,
+          title: card.dataset.title || '',
+          dateLabel: card.dataset.dateLabel || ''
+        };
+      }).filter(Boolean);
+
+      if (!entries.length) {
+        aboutTimeline.classList.remove('hidden');
+        aboutTimelineYears.innerHTML = '';
+        aboutConnections.innerHTML = '';
+        return;
+      }
+
+      aboutTimeline.classList.remove('hidden');
+
+      const activeList = document.querySelector('.about-panel.active .about-list');
+      const timelineHeight = Math.max(activeList?.offsetHeight || 0, 360);
+      aboutTimeline.style.height = `${timelineHeight}px`;
+
+      const minYear = Math.min(...entries.map((entry) => entry.start.year));
+      const maxYear = Math.max(...entries.map((entry) => entry.end.year));
+      const rangeStart = minYear * 12;
+      const rangeEndExclusive = (maxYear + 1) * 12;
+      const topPadding = 12;
+      const bottomPadding = 12;
+      const usableHeight = Math.max(timelineHeight - topPadding - bottomPadding, 1);
+      const totalMonths = Math.max(rangeEndExclusive - rangeStart, 1);
+
+      const monthToY = (monthIndex) => {
+        const ratio = (monthIndex - rangeStart) / totalMonths;
+        return topPadding + (ratio * usableHeight);
+      };
+
+      aboutTimelineYears.innerHTML = Array.from(
+        { length: (maxYear - minYear) + 1 },
+        (_, index) => {
+          const year = minYear + index;
+          const top = monthToY(year * 12);
+          return `
+            <div class="about-timeline-year" style="top: ${top}px;">
+              <span class="about-timeline-year-label">${year}</span>
+              <span class="about-timeline-year-tick" aria-hidden="true"></span>
+            </div>
+          `;
+        }
+      ).join('');
+
+      if (window.matchMedia('(max-width: 720px)').matches) {
+        aboutConnections.innerHTML = '';
+        return;
+      }
+
+      const gridRect = aboutGrid.getBoundingClientRect();
+      const timelineRect = aboutTimeline.getBoundingClientRect();
+      const axisRect = aboutTimelineAxis.getBoundingClientRect();
+      const timelineX = (axisRect.left - gridRect.left) + (axisRect.width / 2);
+      const timelineOffsetY = timelineRect.top - gridRect.top;
+
+      aboutConnections.setAttribute('viewBox', `0 0 ${Math.max(aboutGrid.clientWidth, 1)} ${Math.max(aboutGrid.clientHeight, 1)}`);
+      aboutConnections.innerHTML = entries.map((entry, index) => {
+        const cardRect = entry.card.getBoundingClientRect();
+        const startY = timelineOffsetY + monthToY(entry.start.monthIndex);
+        const endY = timelineOffsetY + monthToY(entry.end.monthIndex + 1);
+        const middleY = (startY + endY) / 2;
+        const cardY = (cardRect.top - gridRect.top) + (cardRect.height / 2);
+        const cardX = cardRect.left - gridRect.left;
+        const gapWidth = Math.max(cardX - timelineX, 80);
+        const elbowX = timelineX + Math.min(Math.max(gapWidth * 0.48, 56), gapWidth - 22);
+        const rangeX = timelineX + 12 + ((index % 4) * 5);
+        const startCapX1 = rangeX - 4;
+        const startCapX2 = rangeX + 4;
+        const points = `${cardX},${cardY} ${elbowX},${cardY} ${elbowX},${middleY} ${rangeX},${middleY}`;
+
+        return `
+          <g>
+            <line x1="${rangeX}" y1="${startY}" x2="${rangeX}" y2="${endY}" style="stroke: var(--cardBorder); stroke-width: 1;"></line>
+            <line x1="${startCapX1}" y1="${startY}" x2="${startCapX2}" y2="${startY}" style="stroke: var(--cardBorder); stroke-width: 1;"></line>
+            <line x1="${startCapX1}" y1="${endY}" x2="${startCapX2}" y2="${endY}" style="stroke: var(--cardBorder); stroke-width: 1;"></line>
+            <polyline points="${points}" style="fill: none; stroke: var(--link); stroke-opacity: 0.34; stroke-width: 1.25; stroke-linecap: square; stroke-linejoin: miter;"></polyline>
+          </g>
+        `;
+      }).join('');
+    }
 
     function clearAboutSelection() {
       document.querySelectorAll('.about-card').forEach((card) => {
@@ -923,6 +1175,8 @@
         aboutDetail.innerHTML = '';
         aboutDetail.classList.remove('active');
       }
+
+      requestAnimationFrame(renderAboutTimeline);
     }
 
     document.addEventListener('click', (event) => {
@@ -939,9 +1193,19 @@
       card.classList.add('active');
       card.setAttribute('aria-pressed', 'true');
 
+      if (aboutTimeline) {
+        aboutTimeline.classList.add('hidden');
+      }
+
+      if (aboutConnections) {
+        aboutConnections.innerHTML = '';
+      }
+
       if (aboutDetail) {
         aboutDetail.innerHTML = `
           <img class="about-detail-image" src="${card.dataset.image}" alt="${card.dataset.imageAlt}" loading="lazy" decoding="async">
+          <h3 class="about-detail-title">${card.dataset.title}</h3>
+          <p class="about-detail-date">${card.dataset.dateLabel}</p>
           <div class="about-detail-text">${card.dataset.bodyHtml}</div>
         `;
         aboutDetail.classList.add('active');
@@ -974,6 +1238,20 @@
 
         clearAboutSelection();
       });
+    });
+
+    aboutContentReady.then(() => {
+      renderAboutTimeline();
+
+      if (typeof ResizeObserver === 'function' && aboutGrid) {
+        const aboutResizeObserver = new ResizeObserver(() => {
+          requestAnimationFrame(renderAboutTimeline);
+        });
+
+        aboutResizeObserver.observe(aboutGrid);
+      } else {
+        window.addEventListener('resize', renderAboutTimeline);
+      }
     });
   </script>
 </body>
