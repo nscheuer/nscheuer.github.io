@@ -6,9 +6,9 @@
   <meta name="color-scheme" content="dark light" />
   <title>Niclas Scheuer</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%230b0d10'/%3E%3Ccircle cx='32' cy='24' r='12' fill='%238ec5ff'/%3E%3Cpath d='M18 48c3-8 9-12 14-12s11 4 14 12' fill='none' stroke='%23f8fafc' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E" />
-  <link rel="preload" as="image" href="pictures/video/hero_poster.webp" fetchpriority="high" />
-  <link rel="preload" as="image" href="pictures/video/genadcs_firstframe.png" />
-  <link rel="preload" as="image" href="pictures/video/saltro_firstframe.png" />
+  <link rel="preload" as="image" href="assets/video/hero_poster.avif" fetchpriority="high" />
+  <link rel="preload" as="image" href="assets/video/genadcs_firstframe.avif" />
+  <link rel="preload" as="image" href="assets/video/saltro_firstframe.png" />
 
   <style>
     :root {
@@ -761,12 +761,14 @@
       border-radius: 18px;
       padding: 14px 16px;
       cursor: pointer;
-      transition: background-color 120ms ease, box-shadow 120ms ease;
+      transition: background-color 120ms ease;
+      contain: paint;
     }
 
     .about-card:hover,
     .about-card:focus-within {
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+      outline: 1px solid rgba(255,255,255,0.04);
+      outline-offset: -1px;
     }
 
     .about-card[data-tone="work"]:hover,
@@ -792,7 +794,7 @@
 
     .about-card-head {
       display: grid;
-      grid-template-columns: 48px minmax(0, 1fr);
+      grid-template-columns: 64px minmax(0, 1fr);
       gap: 14px;
       align-items: center;
     }
@@ -802,11 +804,13 @@
     }
 
     .about-logo {
-      width: 48px;
-      height: 48px;
-      object-fit: cover;
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
       border-radius: 12px;
       display: block;
+      padding: 8px;
+      box-sizing: border-box;
       background: rgba(255,255,255,0.04);
     }
 
@@ -916,10 +920,10 @@
         playsinline
         webkit-playsinline
         preload="auto"
-        poster="pictures/video/hero_poster.webp"
+        poster="assets/video/hero_poster.avif"
       >
-        <source src="pictures/video/Home_compressed.webm" type="video/webm">
-        <source src="pictures/video/Home_compressed_fallback.mp4" type="video/mp4">
+        <source src="assets/video/Home_compressed.webm" type="video/webm">
+        <source src="assets/video/Home_compressed_fallback.mp4" type="video/mp4">
       </video>
     </div>
 
@@ -935,7 +939,7 @@
               <a href="https://ethz.ch/en.html" rel="noopener">ETH Zürich</a>
             </div>
           </div>
-          <img class="avatar" src="pictures/me.avif" alt="Niclas Scheuer" loading="eager" decoding="async" fetchpriority="high" width="2048" height="2048">
+          <img class="avatar" src="assets/me.avif" alt="Niclas Scheuer" loading="eager" decoding="async" fetchpriority="high" width="2048" height="2048">
         </section>
 
         <hr>
@@ -948,7 +952,7 @@
 
         <nav class="links" aria-label="Profile links">
           <a href="https://www.linkedin.com/in/n-scheuer/">LinkedIn</a>
-          <a href="pictures/cv_niclas_scheuer.pdf" target="_blank" rel="noopener">CV</a>
+          <a href="assets/pdf/cv_niclas_scheuer.pdf" target="_blank" rel="noopener">CV</a>
           <a href="https://github.com/nscheuer">GitHub</a>
         </nav>
       </div>
@@ -964,7 +968,7 @@
           <div class="product-media" aria-hidden="true">
             <img
               class="product-image"
-              src="pictures/video/genadcs_firstframe.png"
+              src="assets/video/genadcs_firstframe.avif"
               alt=""
               loading="eager"
               decoding="async"
@@ -978,8 +982,8 @@
               playsinline
               preload="none"
               aria-hidden="true"
-              data-webm="pictures/video/genadcs_animation.webm"
-              data-mp4="pictures/video/genadcs_animation.mp4"
+              data-webm="assets/video/genadcs_animation.webm"
+              data-mp4="assets/video/genadcs_animation.mp4"
             ></video>
           </div>
           <div class="product-body">
@@ -994,7 +998,7 @@
           <div class="product-media contain" aria-hidden="true">
             <img
               class="product-image"
-              src="pictures/video/saltro_firstframe.png"
+              src="assets/video/saltro_firstframe.png"
               alt=""
               loading="eager"
               decoding="async"
@@ -1007,8 +1011,8 @@
               playsinline
               preload="none"
               aria-hidden="true"
-              data-webm="pictures/video/saltro_animation.webm"
-              data-mp4="pictures/video/saltro_animation.mp4"
+              data-webm="assets/video/saltro_animation.webm"
+              data-mp4="assets/video/saltro_animation.mp4"
             ></video>
           </div>
           <div class="product-body">
@@ -1030,7 +1034,7 @@
               <p class="publication-conference">Accepted, SmallSat Europe 2026</p>
             </div>
             <div class="publication-thumb" aria-hidden="true">
-              <img src="pictures/publications/smallsat_europe.jpg" alt="" loading="lazy" decoding="async" width="200" height="200">
+              <img src="assets/logos/conferences/smallsat_europe.avif" alt="" loading="lazy" decoding="async" width="200" height="200">
             </div>
           </article>
 
@@ -1041,7 +1045,7 @@
               <p class="publication-conference">Accepted, SmallSat US 2026</p>
             </div>
             <div class="publication-thumb" aria-hidden="true">
-              <img src="pictures/publications/smallsat_us.png" alt="" loading="lazy" decoding="async" width="225" height="225">
+              <img src="assets/logos/conferences/smallsat_us.avif" alt="" loading="lazy" decoding="async" width="225" height="225">
             </div>
           </article>
 
@@ -1052,7 +1056,7 @@
               <p class="publication-conference">Accepted, SmallSat US 2026</p>
             </div>
             <div class="publication-thumb" aria-hidden="true">
-              <img src="pictures/publications/smallsat_us.png" alt="" loading="lazy" decoding="async" width="225" height="225">
+              <img src="assets/logos/conferences/smallsat_us.avif" alt="" loading="lazy" decoding="async" width="225" height="225">
             </div>
           </article>
 
@@ -1063,7 +1067,7 @@
               <p class="publication-conference">Accepted, 77th International Astronautical Congress</p>
             </div>
             <div class="publication-thumb" aria-hidden="true">
-              <img src="pictures/publications/iaf.png" alt="" loading="lazy" decoding="async" width="1280" height="1148">
+              <img src="assets/logos/conferences/iaf.avif" alt="" loading="lazy" decoding="async" width="1280" height="1148">
             </div>
           </article>
         </div>
@@ -1231,11 +1235,11 @@
     const ABOUT_WORK = [
       {
         title: 'ETH Space',
-        logo: 'pictures/placeholders/entry-logo.svg',
+        logo: 'assets/logos/thumbs/industry/eth-space.avif',
         logoAlt: 'ETH Space',
         logoWidth: 400,
         logoHeight: 400,
-        image: 'pictures/placeholders/entry-wide.svg',
+        image: 'assets/logos/placeholders/entry-wide.svg',
         imageAlt: 'ETH Space placeholder image',
         imageWidth: 1600,
         imageHeight: 800,
@@ -1245,11 +1249,11 @@
       },
       {
         title: 'Space Telecommunications, Astronomy and Radiation Laboratory',
-        logo: 'pictures/industry/mitrt.avif',
+        logo: 'assets/logos/thumbs/industry/starlab.avif',
         logoAlt: 'Space Telecommunications, Astronomy and Radiation Laboratory',
         logoWidth: 2500,
         logoHeight: 1264,
-        image: 'pictures/placeholders/entry-wide.svg',
+        image: 'assets/logos/placeholders/entry-wide.svg',
         imageAlt: 'STAR Lab placeholder image',
         imageWidth: 1600,
         imageHeight: 800,
@@ -1259,11 +1263,11 @@
       },
       {
         title: 'MIT Satellite Team',
-        logo: 'pictures/projects/MITSAT.avif',
+        logo: 'assets/logos/thumbs/industry/mit-satellite-team.avif',
         logoAlt: 'MIT Satellite Team',
         logoWidth: 200,
         logoHeight: 200,
-        image: 'pictures/placeholders/entry-wide.svg',
+        image: 'assets/logos/placeholders/entry-wide.svg',
         imageAlt: 'MIT Satellite Team placeholder image',
         imageWidth: 1600,
         imageHeight: 800,
@@ -1273,11 +1277,11 @@
       },
       {
         title: 'MIT Rocket Team',
-        logo: 'pictures/placeholders/entry-logo.svg',
+        logo: 'assets/logos/thumbs/industry/mit-rocket-team.avif',
         logoAlt: 'MIT Rocket Team',
         logoWidth: 400,
         logoHeight: 400,
-        image: 'pictures/placeholders/entry-wide.svg',
+        image: 'assets/logos/placeholders/entry-wide.svg',
         imageAlt: 'MIT Rocket Team placeholder image',
         imageWidth: 1600,
         imageHeight: 800,
@@ -1287,11 +1291,11 @@
       },
       {
         title: 'Institute for Dynamic Systems and Control',
-        logo: 'pictures/industry/idsc.avif',
+        logo: 'assets/logos/thumbs/industry/idsc.avif',
         logoAlt: 'Institute for Dynamic Systems and Control',
         logoWidth: 250,
         logoHeight: 250,
-        image: 'pictures/placeholders/entry-wide.svg',
+        image: 'assets/logos/placeholders/entry-wide.svg',
         imageAlt: 'IDSC placeholder image',
         imageWidth: 1600,
         imageHeight: 800,
@@ -1301,11 +1305,11 @@
       },
       {
         title: 'Rocket Factory Augsburg',
-        logo: 'pictures/projects/RFAlaunch.avif',
+        logo: 'assets/logos/thumbs/industry/rocket-factory-augsburg.avif',
         logoAlt: 'Rocket Factory Augsburg',
         logoWidth: 1200,
         logoHeight: 675,
-        image: 'pictures/placeholders/entry-wide.svg',
+        image: 'assets/logos/placeholders/entry-wide.svg',
         imageAlt: 'Rocket Factory Augsburg placeholder image',
         imageWidth: 1600,
         imageHeight: 800,
@@ -1318,11 +1322,11 @@
     const ABOUT_EDUCATION = [
       {
         title: 'ETH Zurich Master of Mechanical Engineering',
-        logo: 'pictures/education/ethz.avif',
+        logo: 'assets/logos/thumbs/education/ethz.avif',
         logoAlt: 'ETH Zurich',
         logoWidth: 318,
         logoHeight: 159,
-        image: 'pictures/placeholders/entry-wide.svg',
+        image: 'assets/logos/placeholders/entry-wide.svg',
         imageAlt: 'ETH Zurich Master placeholder image',
         imageWidth: 1600,
         imageHeight: 800,
@@ -1332,11 +1336,11 @@
       },
       {
         title: 'MIT Exchange',
-        logo: 'pictures/education/mit.avif',
+        logo: 'assets/logos/thumbs/education/mit.avif',
         logoAlt: 'MIT Exchange',
         logoWidth: 5205,
         logoHeight: 3403,
-        image: 'pictures/placeholders/entry-wide.svg',
+        image: 'assets/logos/placeholders/entry-wide.svg',
         imageAlt: 'MIT Exchange placeholder image',
         imageWidth: 1600,
         imageHeight: 800,
@@ -1346,11 +1350,11 @@
       },
       {
         title: 'ETH Zurich Bachelor of Mechanical Engineering',
-        logo: 'pictures/education/ethz.avif',
+        logo: 'assets/logos/thumbs/education/ethz.avif',
         logoAlt: 'ETH Zurich',
         logoWidth: 318,
         logoHeight: 159,
-        image: 'pictures/placeholders/entry-wide.svg',
+        image: 'assets/logos/placeholders/entry-wide.svg',
         imageAlt: 'ETH Zurich Bachelor placeholder image',
         imageWidth: 1600,
         imageHeight: 800,
@@ -1458,10 +1462,32 @@
     const aboutConnections = document.getElementById('about-connections');
     const aboutDetail = document.getElementById('about-detail');
     let hoveredAboutEntryId = null;
+    let aboutTimelineFrame = 0;
+    let hoveredAboutCard = null;
 
     function getActiveAboutCards() {
       const list = document.querySelector('.about-panel.active .about-list');
       return list ? Array.from(list.querySelectorAll('.about-card')) : [];
+    }
+
+    function getAllAboutCards() {
+      return Array.from(document.querySelectorAll('.about-card'));
+    }
+
+    function scheduleAboutTimelineRender() {
+      if (aboutTimelineFrame) return;
+      aboutTimelineFrame = requestAnimationFrame(() => {
+        aboutTimelineFrame = 0;
+        renderAboutTimeline();
+      });
+    }
+
+    function updateAboutTimelineHighlight() {
+      if (!aboutConnections) return;
+
+      aboutConnections.querySelectorAll('[data-entry-id]').forEach((node) => {
+        node.classList.toggle('is-highlighted', node.dataset.entryId === hoveredAboutEntryId);
+      });
     }
 
     function renderAboutTimeline() {
@@ -1555,37 +1581,41 @@
         const rangeX = timelineX + 18 + (index * 14);
         const startCapX1 = rangeX - 4;
         const startCapX2 = rangeX + 4;
-        const highlighted = entry.entryId === hoveredAboutEntryId ? ' is-highlighted' : '';
-
         return `
           <g>
-            <line class="about-timeline-range tone-${entry.tone}${highlighted}" x1="${rangeX}" y1="${startY}" x2="${rangeX}" y2="${endY}"></line>
-            <line class="about-timeline-range-cap tone-${entry.tone}${highlighted}" x1="${startCapX1}" y1="${startY}" x2="${startCapX2}" y2="${startY}"></line>
-            <line class="about-timeline-range-cap tone-${entry.tone}${highlighted}" x1="${startCapX1}" y1="${endY}" x2="${startCapX2}" y2="${endY}"></line>
+            <line class="about-timeline-range tone-${entry.tone}" data-entry-id="${entry.entryId}" x1="${rangeX}" y1="${startY}" x2="${rangeX}" y2="${endY}"></line>
+            <line class="about-timeline-range-cap tone-${entry.tone}" data-entry-id="${entry.entryId}" x1="${startCapX1}" y1="${startY}" x2="${startCapX2}" y2="${startY}"></line>
+            <line class="about-timeline-range-cap tone-${entry.tone}" data-entry-id="${entry.entryId}" x1="${startCapX1}" y1="${endY}" x2="${startCapX2}" y2="${endY}"></line>
           </g>
         `;
       }).join('');
+
+      updateAboutTimelineHighlight();
     }
 
-    function setHoveredAboutEntry(entryId) {
+    function setHoveredAboutEntry(entryId, card) {
+      if (!entryId || hoveredAboutEntryId === entryId) return;
       hoveredAboutEntryId = entryId;
-      document.querySelectorAll('.about-card').forEach((card) => {
-        card.classList.toggle('is-hovered', card.dataset.entryId === entryId);
-      });
-      requestAnimationFrame(renderAboutTimeline);
+      const nextCard = card || document.querySelector(`.about-card[data-entry-id="${entryId}"]`);
+      if (hoveredAboutCard && hoveredAboutCard !== nextCard) {
+        hoveredAboutCard.classList.remove('is-hovered');
+      }
+      hoveredAboutCard = nextCard || null;
+      hoveredAboutCard?.classList.add('is-hovered');
+      updateAboutTimelineHighlight();
     }
 
     function clearHoveredAboutEntry(entryId) {
       if (entryId && hoveredAboutEntryId !== entryId) return;
+      if (!hoveredAboutEntryId) return;
       hoveredAboutEntryId = null;
-      document.querySelectorAll('.about-card').forEach((card) => {
-        card.classList.remove('is-hovered');
-      });
-      requestAnimationFrame(renderAboutTimeline);
+      hoveredAboutCard?.classList.remove('is-hovered');
+      hoveredAboutCard = null;
+      updateAboutTimelineHighlight();
     }
 
     function clearAboutSelection() {
-      document.querySelectorAll('.about-card').forEach((card) => {
+      getAllAboutCards().forEach((card) => {
         card.classList.remove('active');
         card.setAttribute('aria-pressed', 'false');
       });
@@ -1595,29 +1625,30 @@
         aboutDetail.classList.remove('active');
       }
 
-      requestAnimationFrame(renderAboutTimeline);
+      scheduleAboutTimelineRender();
     }
 
-    document.addEventListener('pointerover', (event) => {
+    aboutGrid?.addEventListener('pointerover', (event) => {
       const card = event.target.closest('.about-card');
       if (!card) return;
-      setHoveredAboutEntry(card.dataset.entryId);
+      if (card.contains(event.relatedTarget)) return;
+      setHoveredAboutEntry(card.dataset.entryId, card);
     });
 
-    document.addEventListener('pointerout', (event) => {
+    aboutGrid?.addEventListener('pointerout', (event) => {
       const card = event.target.closest('.about-card');
       if (!card) return;
       if (card.contains(event.relatedTarget)) return;
       clearHoveredAboutEntry(card.dataset.entryId);
     });
 
-    document.addEventListener('focusin', (event) => {
+    aboutGrid?.addEventListener('focusin', (event) => {
       const card = event.target.closest('.about-card');
       if (!card) return;
-      setHoveredAboutEntry(card.dataset.entryId);
+      setHoveredAboutEntry(card.dataset.entryId, card);
     });
 
-    document.addEventListener('focusout', (event) => {
+    aboutGrid?.addEventListener('focusout', (event) => {
       const card = event.target.closest('.about-card');
       if (!card) return;
       if (card.contains(event.relatedTarget)) return;
@@ -1699,12 +1730,12 @@
 
       if (typeof ResizeObserver === 'function' && aboutGrid) {
         const aboutResizeObserver = new ResizeObserver(() => {
-          requestAnimationFrame(renderAboutTimeline);
+          scheduleAboutTimelineRender();
         });
 
         aboutResizeObserver.observe(aboutGrid);
       } else {
-        window.addEventListener('resize', renderAboutTimeline);
+        window.addEventListener('resize', scheduleAboutTimelineRender);
       }
     });
   </script>
