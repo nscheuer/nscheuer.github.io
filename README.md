@@ -7,12 +7,11 @@ Open `index.html` in a browser (or serve the folder with a local web server for 
 
 ## Structure
 - `index.html` — current main homepage
-- `projects/` — project/industry/education content pages loaded by the homepage
-- `pictures/` — images, video, and PDF assets
-- `earthindex.html` — legacy Three.js-based homepage
+- `content/` — work and education entry content loaded by the homepage
+- `assets/` — images, video, PDF files, and styling assets
 
 ## Notes
-The current homepage is optimized for a lightweight, fast-loading experience. The legacy Three.js page is kept for reference.
+The current homepage is optimized for a lightweight, fast-loading experience.
 
 ## Extra documentation
 - `nscheuer.github.io/Generalized_ADCS` links to the documentation for the **Generalized_ADCS** repository.
