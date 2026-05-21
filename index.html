@@ -457,17 +457,121 @@
     .future-band {
       width: 100vw;
       margin-left: calc(50% - 50vw);
-      margin-top: 92px;
+      margin-top: 44px;
       background: #e8dfd1;
       color: #111111;
       content-visibility: auto;
-      contain-intrinsic-size: 220px;
+      contain-intrinsic-size: 760px;
     }
 
     .future-inner {
       max-width: 1120px;
       margin: 0 auto;
-      padding: 56px 18px 128px;
+      padding: 28px 18px 104px;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+      gap: 18px;
+      margin-top: 18px;
+      align-items: stretch;
+    }
+
+    .project-stack {
+      display: grid;
+      gap: 18px;
+      grid-template-rows: repeat(2, minmax(0, 1fr));
+    }
+
+    .project-card {
+      position: relative;
+      display: block;
+      min-height: 280px;
+      border-radius: 28px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      background: rgba(17, 17, 17, 0.08);
+      box-shadow: 0 22px 40px rgba(55, 44, 28, 0.12);
+      isolation: isolate;
+    }
+
+    .project-card.large {
+      min-height: 578px;
+    }
+
+    .project-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border: 1px solid rgba(17, 17, 17, 0.08);
+      pointer-events: none;
+    }
+
+    .project-media {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .project-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.01);
+      transition: transform 260ms ease;
+    }
+
+    .project-card:hover .project-media img,
+    .project-card:focus-visible .project-media img,
+    .project-card:focus-within .project-media img {
+      transform: scale(1.08);
+    }
+
+    .project-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(34, 25, 16, 0.08), rgba(17, 17, 17, 0.62));
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .project-copy {
+      position: absolute;
+      inset: auto 0 0;
+      z-index: 2;
+      padding: 22px 22px 24px;
+    }
+
+    .project-kicker,
+    .project-title,
+    .project-description {
+      margin: 0;
+    }
+
+    .project-kicker {
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255, 248, 239, 0.76);
+    }
+
+    .project-title {
+      margin-top: 8px;
+      font-size: clamp(1.35rem, 2vw, 2.2rem);
+      line-height: 1.08;
+      color: #fffaf3;
+    }
+
+    .project-description {
+      margin-top: 10px;
+      max-width: 34ch;
+      color: rgba(255, 248, 239, 0.82);
+      line-height: 1.45;
     }
 
     .footer {
@@ -529,8 +633,8 @@
     .about-grid {
       position: relative;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-      gap: 26px;
+      grid-template-columns: minmax(240px, 0.88fr) minmax(0, 2.12fr);
+      gap: 24px;
       align-items: start;
     }
 
@@ -538,6 +642,7 @@
       min-width: 0;
       position: relative;
       z-index: 1;
+      min-height: 360px;
     }
 
     .about-main {
@@ -652,8 +757,13 @@
     }
 
     .about-detail {
+      position: absolute;
+      inset: 42px 0 0;
       display: none;
-      margin-top: 10px;
+      margin-top: 0;
+      padding: 0 0 8px;
+      overflow-y: auto;
+      overscroll-behavior: contain;
     }
 
     .about-detail.active {
@@ -662,10 +772,14 @@
 
     .about-detail-image {
       width: 100%;
+      max-width: 100%;
+      max-height: 320px;
       aspect-ratio: 2 / 1;
-      object-fit: cover;
+      object-fit: contain;
+      object-position: center;
       border-radius: 18px;
       display: block;
+      margin: 0 auto;
     }
 
     .about-detail-title {
@@ -886,6 +1000,16 @@
       .about-grid {
         grid-template-columns: 1fr;
       }
+      .about-side {
+        min-height: 0;
+      }
+      .about-detail {
+        position: static;
+        inset: auto;
+        margin-top: 10px;
+        padding-bottom: 0;
+        overflow: visible;
+      }
       .about-tabs {
         gap: 14px;
         flex-wrap: wrap;
@@ -897,7 +1021,17 @@
         margin-top: 72px;
       }
       .future-inner {
-        padding: 48px 18px 96px;
+        padding: 22px 18px 84px;
+      }
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+      .project-stack {
+        grid-template-rows: none;
+      }
+      .project-card,
+      .project-card.large {
+        min-height: 260px;
       }
       .footer-inner {
         padding-top: 34px;
@@ -1111,9 +1245,60 @@
     </section>
   </main>
 
-  <section class="future-band" aria-label="Things to come">
+  <section class="future-band" aria-label="Projects">
     <div class="future-inner">
-      <div class="section-label dark">Things to come</div>
+      <div class="section-label dark">Projects</div>
+      <div class="projects-grid">
+        <article class="project-card large" aria-label="Featured project placeholder">
+          <div class="project-media">
+            <img
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 1400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23d8c5a8'/%3E%3Cstop offset='52%25' stop-color='%2397775b'/%3E%3Cstop offset='100%25' stop-color='%23503f31'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1400' height='1400' fill='url(%23g)'/%3E%3Ccircle cx='285' cy='290' r='172' fill='rgba(255,248,239,0.22)'/%3E%3Cpath d='M104 1090C290 864 529 716 817 682c189-22 349 8 479 88v320H104Z' fill='rgba(28,22,18,0.34)'/%3E%3Cpath d='M808 175 1108 467' stroke='rgba(255,248,239,0.4)' stroke-width='26' stroke-linecap='round'/%3E%3Cpath d='M697 330 979 608' stroke='rgba(255,248,239,0.22)' stroke-width='16' stroke-linecap='round'/%3E%3C/svg%3E"
+              alt="Featured project placeholder image"
+              loading="lazy"
+              decoding="async"
+            >
+          </div>
+          <div class="project-copy">
+            <p class="project-kicker">Featured</p>
+            <h3 class="project-title">Large project slot</h3>
+            <p class="project-description">Placeholder for a flagship build, research effort, or product launch.</p>
+          </div>
+        </article>
+
+        <div class="project-stack">
+          <article class="project-card" aria-label="Project placeholder one">
+            <div class="project-media">
+              <img
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 1000'%3E%3Cdefs%3E%3ClinearGradient id='g2' x1='10%25' y1='5%25' x2='90%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23efe4d4'/%3E%3Cstop offset='50%25' stop-color='%23b79474'/%3E%3Cstop offset='100%25' stop-color='%23654f40'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1000' height='1000' fill='url(%23g2)'/%3E%3Crect x='118' y='118' width='764' height='764' rx='88' fill='rgba(255,248,239,0.12)'/%3E%3Cpath d='M212 736c114-140 237-210 370-210 92 0 187 30 286 90v120H212Z' fill='rgba(17,17,17,0.28)'/%3E%3Ccircle cx='702' cy='302' r='112' fill='rgba(255,248,239,0.24)'/%3E%3C/svg%3E"
+                alt="Project placeholder image"
+                loading="lazy"
+                decoding="async"
+              >
+            </div>
+            <div class="project-copy">
+              <p class="project-kicker">Project</p>
+              <h3 class="project-title">Upper card</h3>
+              <p class="project-description">Placeholder image and copy for a second project.</p>
+            </div>
+          </article>
+
+          <article class="project-card" aria-label="Project placeholder two">
+            <div class="project-media">
+              <img
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 1000'%3E%3Cdefs%3E%3ClinearGradient id='g3' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23f3eadf'/%3E%3Cstop offset='58%25' stop-color='%23a78263'/%3E%3Cstop offset='100%25' stop-color='%23473a2d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1000' height='1000' fill='url(%23g3)'/%3E%3Cpath d='M144 798c101-101 197-162 288-184 120-29 266-8 424 62l144 63V1000H144Z' fill='rgba(17,17,17,0.3)'/%3E%3Cpath d='M210 226h274' stroke='rgba(255,248,239,0.38)' stroke-width='28' stroke-linecap='round'/%3E%3Cpath d='M210 314h392' stroke='rgba(255,248,239,0.22)' stroke-width='18' stroke-linecap='round'/%3E%3Ccircle cx='770' cy='258' r='92' fill='rgba(255,248,239,0.22)'/%3E%3C/svg%3E"
+                alt="Project placeholder image"
+                loading="lazy"
+                decoding="async"
+              >
+            </div>
+            <div class="project-copy">
+              <p class="project-kicker">Project</p>
+              <h3 class="project-title">Lower card</h3>
+              <p class="project-description">Another placeholder slot with the same fixed rounded frame.</p>
+            </div>
+          </article>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1239,10 +1424,10 @@
         logoAlt: 'ETH Space',
         logoWidth: 400,
         logoHeight: 400,
-        image: 'assets/logos/placeholders/entry-wide.svg',
-        imageAlt: 'ETH Space placeholder image',
-        imageWidth: 1600,
-        imageHeight: 800,
+        image: 'assets/images/industry/eth-space.avif',
+        imageAlt: 'ETH Space image',
+        imageWidth: 685,
+        imageHeight: 490,
         start: '2026-02',
         end: 'current',
         bodyHTML: '<p>Building the next generation of space systems engineers.</p>'
@@ -1253,10 +1438,10 @@
         logoAlt: 'Space Telecommunications, Astronomy and Radiation Laboratory',
         logoWidth: 2500,
         logoHeight: 1264,
-        image: 'assets/logos/placeholders/entry-wide.svg',
-        imageAlt: 'STAR Lab placeholder image',
-        imageWidth: 1600,
-        imageHeight: 800,
+        image: 'assets/images/industry/starlab.avif',
+        imageAlt: 'STAR Lab image',
+        imageWidth: 2997,
+        imageHeight: 2821,
         start: '2025-09',
         end: '2026-01',
         bodyHTML: '<p><strong>Junior Researcher</strong></p><ul><li>Developing control and estimation architectures for an underactuated CubeSat currently in build phase.</li><li>Implementing embedded flight-software modules for attitude control, state estimation, and fault tolerance.</li><li>Conducting HIL validation of flight dynamics and control algorithms.</li></ul>'
@@ -1267,8 +1452,8 @@
         logoAlt: 'MIT Satellite Team',
         logoWidth: 200,
         logoHeight: 200,
-        image: 'assets/logos/placeholders/entry-wide.svg',
-        imageAlt: 'MIT Satellite Team placeholder image',
+        image: 'assets/images/industry/mit-satellite-team.avif',
+        imageAlt: 'MIT Satellite Team image',
         imageWidth: 1600,
         imageHeight: 800,
         start: '2025-12',
@@ -1281,10 +1466,10 @@
         logoAlt: 'MIT Rocket Team',
         logoWidth: 400,
         logoHeight: 400,
-        image: 'assets/logos/placeholders/entry-wide.svg',
-        imageAlt: 'MIT Rocket Team placeholder image',
-        imageWidth: 1600,
-        imageHeight: 800,
+        image: 'assets/images/industry/mit-rocket-team.avif',
+        imageAlt: 'MIT Rocket Team image',
+        imageWidth: 1156,
+        imageHeight: 1330,
         start: '2025-09',
         end: '2026-01',
         bodyHTML: '<p><strong>GNC</strong></p><p>Building the Simulink model for a VTVL propeller and liquid-propulsion hopper, including:</p><ul><li>6 DoF dynamics and controller implementation.</li><li>In-depth propeller and aerodynamic disturbance modeling.</li><li>Sensor modeling.</li><li>Monte Carlo simulations.</li><li>CI/CD workflows for test cases, MC, and code generation.</li></ul>'
@@ -1295,10 +1480,10 @@
         logoAlt: 'Institute for Dynamic Systems and Control',
         logoWidth: 250,
         logoHeight: 250,
-        image: 'assets/logos/placeholders/entry-wide.svg',
-        imageAlt: 'IDSC placeholder image',
-        imageWidth: 1600,
-        imageHeight: 800,
+        image: 'assets/images/industry/idsc.avif',
+        imageAlt: 'IDSC image',
+        imageWidth: 946,
+        imageHeight: 533,
         start: '2025-02',
         end: '2025-08',
         bodyHTML: '<p><strong>Head TA</strong></p><p>Organizing the course “Control Systems II” for 330 enrolled students. Managing a team of 9 TAs for:</p><ul><li>Recital sessions.</li><li>Problem set creation.</li><li>Creation and demonstration of case studies using simulation and hardware.</li></ul>'
@@ -1309,8 +1494,8 @@
         logoAlt: 'Rocket Factory Augsburg',
         logoWidth: 1200,
         logoHeight: 675,
-        image: 'assets/logos/placeholders/entry-wide.svg',
-        imageAlt: 'Rocket Factory Augsburg placeholder image',
+        image: 'assets/images/industry/rocket-factory-augsburg.avif',
+        imageAlt: 'Rocket Factory Augsburg image',
         imageWidth: 1600,
         imageHeight: 800,
         start: '2024-09',
@@ -1326,8 +1511,8 @@
         logoAlt: 'ETH Zurich',
         logoWidth: 318,
         logoHeight: 159,
-        image: 'assets/logos/placeholders/entry-wide.svg',
-        imageAlt: 'ETH Zurich Master placeholder image',
+        image: 'assets/images/education/eth-zurich.avif',
+        imageAlt: 'ETH Zurich image',
         imageWidth: 1600,
         imageHeight: 800,
         start: '2025-02',
@@ -1340,10 +1525,10 @@
         logoAlt: 'MIT Exchange',
         logoWidth: 5205,
         logoHeight: 3403,
-        image: 'assets/logos/placeholders/entry-wide.svg',
-        imageAlt: 'MIT Exchange placeholder image',
-        imageWidth: 1600,
-        imageHeight: 800,
+        image: 'assets/images/education/mit.avif',
+        imageAlt: 'MIT Exchange image',
+        imageWidth: 2816,
+        imageHeight: 2112,
         start: '2025-08',
         end: '2026-01',
         bodyHTML: '<p><strong>ETH-MIT Exchange Semester</strong></p><p>Courses and UROP projects at MIT AeroAstro.</p>'
@@ -1354,8 +1539,8 @@
         logoAlt: 'ETH Zurich',
         logoWidth: 318,
         logoHeight: 159,
-        image: 'assets/logos/placeholders/entry-wide.svg',
-        imageAlt: 'ETH Zurich Bachelor placeholder image',
+        image: 'assets/images/education/eth-zurich.avif',
+        imageAlt: 'ETH Zurich image',
         imageWidth: 1600,
         imageHeight: 800,
         start: '2021-09',
@@ -1453,6 +1638,7 @@
 
   <script>
     const aboutGrid = document.querySelector('.about-grid');
+    const aboutSide = document.querySelector('.about-side');
     const aboutTabs = document.querySelectorAll('.about-tab');
     const aboutPanels = document.querySelectorAll('.about-panel');
     const aboutTimeline = document.getElementById('about-timeline');
@@ -1491,9 +1677,13 @@
     }
 
     function renderAboutTimeline() {
-      if (!aboutGrid || !aboutTimeline || !aboutTimelineAxis || !aboutTimelineYears || !aboutConnections || !aboutTimelineNow) {
+      if (!aboutGrid || !aboutSide || !aboutTimeline || !aboutTimelineAxis || !aboutTimelineYears || !aboutConnections || !aboutTimelineNow) {
         return;
       }
+
+      const activeList = document.querySelector('.about-panel.active .about-list');
+      const sidebarHeight = Math.max(activeList?.offsetHeight || 0, 360);
+      aboutSide.style.minHeight = `${sidebarHeight}px`;
 
       if (aboutDetail && aboutDetail.classList.contains('active')) {
         aboutTimeline.classList.add('hidden');
@@ -1528,9 +1718,7 @@
       }
 
       aboutTimeline.classList.remove('hidden');
-
-      const activeList = document.querySelector('.about-panel.active .about-list');
-      const timelineHeight = Math.max(activeList?.offsetHeight || 0, 360);
+      const timelineHeight = sidebarHeight;
       aboutTimeline.style.height = `${timelineHeight}px`;
 
       const minYear = Math.min(...entries.map((entry) => entry.start.year));
@@ -1623,6 +1811,10 @@
       if (aboutDetail) {
         aboutDetail.innerHTML = '';
         aboutDetail.classList.remove('active');
+      }
+
+      if (aboutSide) {
+        aboutSide.style.minHeight = '';
       }
 
       scheduleAboutTimelineRender();
