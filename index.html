@@ -1225,7 +1225,6 @@
             <nav class="about-tabs" aria-label="About categories">
               <button class="about-tab active" data-target="about-work" data-tone="work" aria-selected="true">Work</button>
               <button class="about-tab" data-target="about-education" data-tone="education" aria-selected="false">Education</button>
-              <button class="about-tab" data-target="about-projects" data-tone="projects" aria-selected="false">Projects</button>
             </nav>
 
             <section class="about-panel active" id="about-work" data-tone="work">
@@ -1234,10 +1233,6 @@
 
             <section class="about-panel" id="about-education" data-tone="education">
               <div class="about-list" id="about-education-list"></div>
-            </section>
-
-            <section class="about-panel" id="about-projects" data-tone="projects">
-              <div class="about-list" id="about-projects-list"></div>
             </section>
           </div>
         </div>
@@ -1549,8 +1544,6 @@
       }
     ];
 
-    const ABOUT_PROJECTS = [];
-
     const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
     function parseYearMonth(value) {
@@ -1632,7 +1625,6 @@
     const aboutContentReady = Promise.resolve().then(() => {
       populateAboutList('about-work-list', ABOUT_WORK, 'work');
       populateAboutList('about-education-list', ABOUT_EDUCATION, 'education');
-      populateAboutList('about-projects-list', ABOUT_PROJECTS, 'projects');
     });
   </script>
 
