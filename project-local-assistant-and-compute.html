@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <title>Local Assistant and Compute</title>
+  <style>
+    :root {
+      --bg: #0b0d10;
+      --fg: #f8fafc;
+      --muted: #9fb0c7;
+      --line: #1f2937;
+      --link: #8ec5ff;
+      --node-bg: rgba(8, 15, 28, 0.86);
+      --node-border: rgba(142, 197, 255, 0.24);
+      --router-bg: rgba(17, 24, 39, 0.94);
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font: 16px/1.6 "Aptos", "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    .hero {
+      position: relative;
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      min-height: clamp(280px, 48vw, 520px);
+      overflow: hidden;
+      background: #111827;
+    }
+
+    .hero img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.56) saturate(0.95);
+    }
+
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 34px 18px 72px;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 5vw, 46px);
+      line-height: 1.08;
+    }
+
+    .subtitle {
+      margin: 12px auto 0;
+      max-width: 34ch;
+      color: var(--muted);
+      font-size: clamp(17px, 2.2vw, 20px);
+    }
+
+    .diagram-wrap {
+      margin-top: 28px;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+      gap: 32px;
+      align-items: start;
+      margin-top: 28px;
+      text-align: left;
+    }
+
+    .content-copy {
+      display: grid;
+      gap: 22px;
+    }
+
+    .section-title {
+      margin: 0 0 12px;
+      color: var(--fg);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .section-copy {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .deployment-list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .deployment-list li + li {
+      margin-top: 8px;
+    }
+
+    .image-stack {
+      display: grid;
+      gap: 18px;
+      position: sticky;
+      top: 20px;
+    }
+
+    .image-slot {
+      margin: 0;
+      border: 1px solid rgba(142, 197, 255, 0.16);
+      border-radius: 22px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(18, 29, 47, 0.7), rgba(8, 13, 24, 0.92)),
+        rgba(255, 255, 255, 0.02);
+    }
+
+    .image-placeholder {
+      aspect-ratio: 16 / 10;
+      display: block;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    .image-caption {
+      padding: 12px 14px 14px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      border-top: 1px solid rgba(142, 197, 255, 0.12);
+    }
+
+    .diagram {
+      width: 100%;
+      display: block;
+      overflow: visible;
+    }
+
+    .diagram text {
+      font-family: "Aptos", "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    .node-box,
+    .router-box {
+      fill: var(--node-bg);
+      stroke: var(--node-border);
+      stroke-width: 1.5;
+    }
+
+    .router-box {
+      fill: var(--router-bg);
+    }
+
+    .node-label {
+      fill: var(--fg);
+      font-size: 16px;
+      font-weight: 600;
+      text-anchor: middle;
+    }
+
+    .link-line {
+      fill: none;
+      stroke: rgba(142, 197, 255, 0.3);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+    }
+
+    .link-halo {
+      fill: none;
+      stroke: rgba(142, 197, 255, 0.08);
+      stroke-width: 10;
+      stroke-linecap: round;
+    }
+
+    .blip {
+      fill: #d9efff;
+      filter: drop-shadow(0 0 9px rgba(142, 197, 255, 0.75));
+    }
+
+    .node-accent {
+      fill: rgba(142, 197, 255, 0.14);
+    }
+
+    .router-icon {
+      stroke: rgba(142, 197, 255, 0.92);
+      stroke-width: 2;
+      stroke-linecap: round;
+      fill: none;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 28px;
+    }
+
+    p {
+      margin: 0 0 14px;
+      color: var(--muted);
+    }
+
+    a {
+      color: var(--link);
+      text-decoration: none;
+      border-bottom: 1px solid currentColor;
+    }
+
+    code {
+      font: 0.95em/1.4 "Cascadia Code", "Consolas", "SFMono-Regular", monospace;
+      color: var(--fg);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .blip animateMotion,
+      .blip animate {
+        display: none;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .diagram-wrap {
+        margin-top: 22px;
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+        gap: 22px;
+      }
+
+      .image-stack {
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero" aria-label="Local Assistant and Compute image">
+    <img src="assets/images/project/cluster.avif" alt="Local Assistant and Compute project image" loading="eager" decoding="async">
+  </section>
+
+  <main>
+    <h1>Local Assistant and Compute</h1>
+    <p class="subtitle">Kubernetes server for OpenClaw, compute, and website hosting</p>
+    <div class="diagram-wrap">
+      <svg class="diagram" viewBox="0 0 1120 700" role="img" aria-label="System diagram showing a central router, a PC on the left, and six cluster nodes arranged in rows above and below">
+        <defs>
+          <linearGradient id="nodeFill" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#152237" stop-opacity="0.96" />
+            <stop offset="100%" stop-color="#070c18" stop-opacity="0.96" />
+          </linearGradient>
+          <linearGradient id="routerFill" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#182234" stop-opacity="0.98" />
+            <stop offset="100%" stop-color="#0a101c" stop-opacity="0.98" />
+          </linearGradient>
+        </defs>
+
+        <path class="link-halo" d="M210 350 L390 350"></path>
+        <path class="link-line" d="M210 350 L390 350"></path>
+
+        <path class="link-halo" d="M465 174 L500 174 Q560 174 560 234 L560 280"></path>
+        <path class="link-line" d="M465 174 L500 174 Q560 174 560 234 L560 280"></path>
+
+        <path class="link-halo" d="M560 174 L560 280"></path>
+        <path class="link-line" d="M560 174 L560 280"></path>
+
+        <path class="link-halo" d="M655 174 L620 174 Q560 174 560 234 L560 280"></path>
+        <path class="link-line" d="M655 174 L620 174 Q560 174 560 234 L560 280"></path>
+
+        <path class="link-halo" d="M465 526 L500 526 Q560 526 560 466 L560 420"></path>
+        <path class="link-line" d="M465 526 L500 526 Q560 526 560 466 L560 420"></path>
+
+        <path class="link-halo" d="M560 526 L560 420"></path>
+        <path class="link-line" d="M560 526 L560 420"></path>
+
+        <path class="link-halo" d="M655 526 L620 526 Q560 526 560 466 L560 420"></path>
+        <path class="link-line" d="M655 526 L620 526 Q560 526 560 466 L560 420"></path>
+
+        <rect class="node-box" x="50" y="298" width="160" height="104" rx="24" style="fill:url(#nodeFill)"></rect>
+        <text class="node-label" x="130" y="357">PC</text>
+
+        <rect class="node-box" x="305" y="122" width="160" height="104" rx="24" style="fill:url(#nodeFill)"></rect>
+        <text class="node-label" x="385" y="181">Jetson Orin</text>
+
+        <rect class="node-box" x="480" y="122" width="160" height="104" rx="24" style="fill:url(#nodeFill)"></rect>
+        <text class="node-label" x="560" y="181">Jetson Orin</text>
+
+        <rect class="node-box" x="655" y="122" width="160" height="104" rx="24" style="fill:url(#nodeFill)"></rect>
+        <text class="node-label" x="735" y="172">
+          <tspan x="735" dy="0">Raspberry</tspan>
+          <tspan x="735" dy="20">Pi 5</tspan>
+        </text>
+
+        <rect class="router-box" x="390" y="280" width="340" height="140" rx="34" style="fill:url(#routerFill)"></rect>
+        <path class="router-icon" d="M505 336c16-17 38-26 55-26s39 9 55 26"></path>
+        <path class="router-icon" d="M523 355c11-11 25-17 37-17s26 6 37 17"></path>
+        <path class="router-icon" d="M546 374c4-4 9-6 14-6s10 2 14 6"></path>
+        <circle cx="560" cy="390" r="5" fill="rgba(142, 197, 255, 0.95)"></circle>
+        <text class="node-label" x="560" y="332">Router</text>
+
+        <rect class="node-box" x="305" y="474" width="160" height="104" rx="24" style="fill:url(#nodeFill)"></rect>
+        <text class="node-label" x="385" y="526">
+          <tspan x="385" dy="0">Raspberry</tspan>
+          <tspan x="385" dy="20">Pi 4</tspan>
+        </text>
+
+        <rect class="node-box" x="480" y="474" width="160" height="104" rx="24" style="fill:url(#nodeFill)"></rect>
+        <text class="node-label" x="560" y="526">
+          <tspan x="560" dy="0">Raspberry</tspan>
+          <tspan x="560" dy="20">Pi 4</tspan>
+        </text>
+
+        <rect class="node-box" x="655" y="474" width="160" height="104" rx="24" style="fill:url(#nodeFill)"></rect>
+        <text class="node-label" x="735" y="533">Lenovo E580</text>
+
+        <circle class="blip" r="5">
+          <animateMotion dur="4.4s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#path-pc"></mpath>
+          </animateMotion>
+          <animate attributeName="opacity" values="0;1;1;0" dur="4.4s" repeatCount="indefinite"></animate>
+        </circle>
+        <circle class="blip" r="5">
+          <animateMotion dur="4.0s" begin="0.8s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#path-j1"></mpath>
+          </animateMotion>
+          <animate attributeName="opacity" values="0;1;1;0" dur="4.0s" begin="0.8s" repeatCount="indefinite"></animate>
+        </circle>
+        <circle class="blip" r="5">
+          <animateMotion dur="4.8s" begin="1.4s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#path-j2"></mpath>
+          </animateMotion>
+          <animate attributeName="opacity" values="0;1;1;0" dur="4.8s" begin="1.4s" repeatCount="indefinite"></animate>
+        </circle>
+        <circle class="blip" r="5">
+          <animateMotion dur="4.2s" begin="0.2s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#path-rpi5"></mpath>
+          </animateMotion>
+          <animate attributeName="opacity" values="0;1;1;0" dur="4.2s" begin="0.2s" repeatCount="indefinite"></animate>
+        </circle>
+        <circle class="blip" r="5">
+          <animateMotion dur="4.1s" begin="1.8s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#path-rpi4a"></mpath>
+          </animateMotion>
+          <animate attributeName="opacity" values="0;1;1;0" dur="4.1s" begin="1.8s" repeatCount="indefinite"></animate>
+        </circle>
+        <circle class="blip" r="5">
+          <animateMotion dur="4.6s" begin="0.9s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#path-rpi4b"></mpath>
+          </animateMotion>
+          <animate attributeName="opacity" values="0;1;1;0" dur="4.6s" begin="0.9s" repeatCount="indefinite"></animate>
+        </circle>
+        <circle class="blip" r="5">
+          <animateMotion dur="4.9s" begin="2.1s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#path-lenovo"></mpath>
+          </animateMotion>
+          <animate attributeName="opacity" values="0;1;1;0" dur="4.9s" begin="2.1s" repeatCount="indefinite"></animate>
+        </circle>
+
+        <path id="path-pc" d="M210 350 L390 350" fill="none" stroke="none"></path>
+        <path id="path-j1" d="M465 174 L500 174 Q560 174 560 234 L560 280" fill="none" stroke="none"></path>
+        <path id="path-j2" d="M560 174 L560 280" fill="none" stroke="none"></path>
+        <path id="path-rpi5" d="M655 174 L620 174 Q560 174 560 234 L560 280" fill="none" stroke="none"></path>
+        <path id="path-rpi4a" d="M465 526 L500 526 Q560 526 560 466 L560 420" fill="none" stroke="none"></path>
+        <path id="path-rpi4b" d="M560 526 L560 420" fill="none" stroke="none"></path>
+        <path id="path-lenovo" d="M655 526 L620 526 Q560 526 560 466 L560 420" fill="none" stroke="none"></path>
+      </svg>
+    </div>
+    <div class="content-grid">
+      <div class="content-copy">
+        <section>
+          <h2 class="section-title">Overview</h2>
+          <p class="section-copy">Cluster started as an assortment of devices I already had at home, all connected through an unmanaged router. It now runs <code>k3s</code> and OpenClaw across the full stack, with robust pod redeployment across nodes, <code>PersistentVolumeClaim</code> storage, and an automatic backup helper for stateful workloads.</p>
+        </section>
+
+        <section>
+          <h2 class="section-title">Networking</h2>
+          <p class="section-copy">Flannel runs fully over ethernet, with cross-device public-key access between nodes. Critical machines are reachable through Tailscale, and game-server traffic is exposed through <code>playit.gg</code>. Each device can either use its own Wi-Fi uplink or be bridged through another node when needed.</p>
+        </section>
+
+        <section>
+          <h2 class="section-title">Inference And Compute</h2>
+          <p class="section-copy">The PC hosts <code>vLLM</code> and <code>ollama</code> endpoints for Qwen3.6 35B, while the Orins run a backup <code>ollama</code> endpoint for Qwen3.5 2B. For heavier jobs, the PC and Lenovo E580 take on the higher-compute workloads.</p>
+        </section>
+
+        <section>
+          <h2 class="section-title">Deployments</h2>
+          <ul class="deployment-list">
+            <li>Local OpenClaw</li>
+            <li>Headlamp dashboard</li>
+            <li>Game servers and associated websites</li>
+            <li>SearXNG</li>
+            <li>Obsidian integration</li>
+          </ul>
+        </section>
+      </div>
+
+      <section class="image-stack" aria-label="Project screenshots">
+        <figure class="image-slot">
+          <img class="image-placeholder" src="assets/images/project/cluster/headlamp.avif" alt="Headlamp cluster dashboard screenshot" loading="lazy" decoding="async">
+          <figcaption class="image-caption">Headlamp dashboard view of workloads, health, and node state across the cluster.</figcaption>
+        </figure>
+
+        <figure class="image-slot">
+          <img class="image-placeholder" src="assets/images/project/cluster/bluemap.avif" alt="Minecraft Bluemap screenshot" loading="lazy" decoding="async">
+          <figcaption class="image-caption">Minecraft Bluemap and the supporting game-server web stack hosted on the cluster.</figcaption>
+        </figure>
+      </section>
+    </div>
+    <p><a class="back-link" href="index.html">Back to homepage</a></p>
+  </main>
+</body>
+</html>
