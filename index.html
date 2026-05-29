@@ -398,6 +398,17 @@
       background: var(--cardLightHover);
     }
 
+    .publication-card-link {
+      cursor: pointer;
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      .publication-card-link {
+        cursor: default;
+        pointer-events: none;
+      }
+    }
+
     .publication-copy {
       min-width: 0;
     }
@@ -1161,7 +1172,13 @@
       <section class="publications" aria-label="Publications">
         <div class="section-label">Publications</div>
         <div class="publication-list">
-          <article class="publication-card" aria-label="A Modular Open-Source Python Framework for Small Satellite Attitude Determination and Control">
+          <a
+            class="publication-card publication-card-link"
+            href="https://smallsateurope.com/paper/a-modular-open-source-adcs-framework-for-small-satellite-development-and-testing/"
+            aria-label="A Modular Open-Source Python Framework for Small Satellite Attitude Determination and Control"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <div class="publication-copy">
               <p class="publication-title">A Modular Open-Source Python Framework for Small Satellite Attitude Determination and Control</p>
               <p class="publication-authors">Patrick McKeen, Niclas Scheuer, Kerri Cahoy</p>
@@ -1170,7 +1187,7 @@
             <div class="publication-thumb" aria-hidden="true">
               <img src="assets/logos/conferences/smallsat_europe.avif" alt="" loading="lazy" decoding="async" width="200" height="200">
             </div>
-          </article>
+          </a>
 
           <article class="publication-card" aria-label="A Feasibility-Aware Attitude Trajectory Planner for Underactuated and Unconventionally Actuated Small Satellites">
             <div class="publication-copy">
@@ -1244,7 +1261,7 @@
     <div class="future-inner">
       <div class="section-label dark">Projects</div>
       <div class="projects-grid">
-        <a class="project-card large" href="project-local-assistant-and-compute.html" aria-label="Local Assistant and Compute">
+        <a class="project-card large" href="projects/project-local-assistant-and-compute.html" aria-label="Local Assistant and Compute">
           <div class="project-media">
             <img
               src="assets/images/project/cluster.avif"
@@ -1261,7 +1278,7 @@
         </a>
 
         <div class="project-stack">
-          <a class="project-card" href="project-minimal-on-wheels.html" aria-label="Minimal on Wheels">
+          <a class="project-card" href="projects/project-minimal-on-wheels.html" aria-label="Minimal on Wheels">
             <div class="project-media">
               <img
                 src="assets/images/project/minimal_robot.avif"
@@ -1277,7 +1294,7 @@
             </div>
           </a>
 
-          <a class="project-card" href="project-bottleneck-simulations.html" aria-label="Bottleneck Simulations">
+          <a class="project-card" href="projects/project-bottleneck-simulations.html" aria-label="Bottleneck Simulations">
             <div class="project-media">
               <img
                 src="assets/images/project/bottleneck.avif"

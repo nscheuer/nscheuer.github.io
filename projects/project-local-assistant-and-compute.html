@@ -12,9 +12,15 @@
       --muted: #5f564a;
       --line: rgba(17, 17, 17, 0.12);
       --link: #0f62fe;
-      --node-bg: rgba(8, 15, 28, 0.86);
-      --node-border: rgba(142, 197, 255, 0.24);
-      --router-bg: rgba(17, 24, 39, 0.94);
+      --node-bg: rgba(247, 242, 234, 0.96);
+      --node-border: rgba(97, 82, 60, 0.22);
+      --router-bg: rgba(236, 227, 215, 0.98);
+      --link-accent: rgba(102, 142, 181, 0.5);
+      --link-halo-color: rgba(102, 142, 181, 0.12);
+      --blip: #4b6f92;
+      --blip-glow: rgba(102, 142, 181, 0.42);
+      --node-accent-fill: rgba(102, 142, 181, 0.1);
+      --router-icon-stroke: rgba(82, 107, 133, 0.88);
     }
 
     html, body {
@@ -118,7 +124,7 @@
       border-radius: 22px;
       overflow: hidden;
       background:
-        linear-gradient(180deg, rgba(18, 29, 47, 0.7), rgba(8, 13, 24, 0.92)),
+        linear-gradient(180deg, rgba(252, 248, 242, 0.78), rgba(232, 223, 209, 0.94)),
         rgba(255, 255, 255, 0.22);
     }
 
@@ -166,29 +172,29 @@
 
     .link-line {
       fill: none;
-      stroke: rgba(142, 197, 255, 0.3);
+      stroke: var(--link-accent);
       stroke-width: 2.5;
       stroke-linecap: round;
     }
 
     .link-halo {
       fill: none;
-      stroke: rgba(142, 197, 255, 0.08);
+      stroke: var(--link-halo-color);
       stroke-width: 10;
       stroke-linecap: round;
     }
 
     .blip {
-      fill: #d9efff;
-      filter: drop-shadow(0 0 9px rgba(142, 197, 255, 0.75));
+      fill: var(--blip);
+      filter: drop-shadow(0 0 9px var(--blip-glow));
     }
 
     .node-accent {
-      fill: rgba(142, 197, 255, 0.14);
+      fill: var(--node-accent-fill);
     }
 
     .router-icon {
-      stroke: rgba(142, 197, 255, 0.92);
+      stroke: var(--router-icon-stroke);
       stroke-width: 2;
       stroke-linecap: round;
       fill: none;
@@ -240,7 +246,7 @@
 </head>
 <body>
   <section class="hero" aria-label="Local Assistant and Compute image">
-    <img src="assets/images/project/cluster.avif" alt="Local Assistant and Compute project image" loading="eager" decoding="async">
+    <img src="../assets/images/project/cluster.avif" alt="Local Assistant and Compute project image" loading="eager" decoding="async">
   </section>
 
   <main>
@@ -250,12 +256,12 @@
       <svg class="diagram" viewBox="0 0 1120 700" role="img" aria-label="System diagram showing a central router, a PC on the left, and six cluster nodes arranged in rows above and below">
         <defs>
           <linearGradient id="nodeFill" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#152237" stop-opacity="0.96" />
-            <stop offset="100%" stop-color="#070c18" stop-opacity="0.96" />
+            <stop offset="0%" stop-color="#fcf8f2" stop-opacity="0.98" />
+            <stop offset="100%" stop-color="#e8dfd1" stop-opacity="0.98" />
           </linearGradient>
           <linearGradient id="routerFill" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#182234" stop-opacity="0.98" />
-            <stop offset="100%" stop-color="#0a101c" stop-opacity="0.98" />
+            <stop offset="0%" stop-color="#f5eee4" stop-opacity="0.99" />
+            <stop offset="100%" stop-color="#ddd0bf" stop-opacity="0.99" />
           </linearGradient>
         </defs>
 
@@ -299,7 +305,7 @@
         <path class="router-icon" d="M505 336c16-17 38-26 55-26s39 9 55 26"></path>
         <path class="router-icon" d="M523 355c11-11 25-17 37-17s26 6 37 17"></path>
         <path class="router-icon" d="M546 374c4-4 9-6 14-6s10 2 14 6"></path>
-        <circle cx="560" cy="390" r="5" fill="rgba(142, 197, 255, 0.95)"></circle>
+        <circle cx="560" cy="390" r="5" fill="var(--blip)"></circle>
         <text class="node-label" x="560" y="332">Router</text>
 
         <rect class="node-box" x="305" y="474" width="160" height="104" rx="24" style="fill:url(#nodeFill)"></rect>
@@ -400,17 +406,17 @@
 
       <section class="image-stack" aria-label="Project screenshots">
         <figure class="image-slot">
-          <img class="image-placeholder" src="assets/images/project/cluster/headlamp.avif" alt="Headlamp cluster dashboard screenshot" loading="lazy" decoding="async">
+          <img class="image-placeholder" src="../assets/images/project/cluster/headlamp.avif" alt="Headlamp cluster dashboard screenshot" loading="lazy" decoding="async">
           <figcaption class="image-caption">Headlamp dashboard view of workloads, health, and node state across the cluster.</figcaption>
         </figure>
 
         <figure class="image-slot">
-          <img class="image-placeholder" src="assets/images/project/cluster/bluemap.avif" alt="Minecraft Bluemap screenshot" loading="lazy" decoding="async">
+          <img class="image-placeholder" src="../assets/images/project/cluster/bluemap.avif" alt="Minecraft Bluemap screenshot" loading="lazy" decoding="async">
           <figcaption class="image-caption">Minecraft Bluemap and the supporting game-server web stack hosted on the cluster.</figcaption>
         </figure>
       </section>
     </div>
-    <p><a class="back-link" href="index.html">Back to homepage</a></p>
+    <p><a class="back-link" href="../index.html">Back to homepage</a></p>
   </main>
 </body>
 </html>
