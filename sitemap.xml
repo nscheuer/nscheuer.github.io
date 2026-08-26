@@ -4,9 +4,6 @@
     <loc>https://nscheuer.github.io/</loc>
   </url>
   <url>
-    <loc>https://nscheuer.github.io/disclaimer.html</loc>
-  </url>
-  <url>
     <loc>https://nscheuer.github.io/projects/project-local-assistant-and-compute.html</loc>
   </url>
   <url>
@@ -14,5 +11,8 @@
   </url>
   <url>
     <loc>https://nscheuer.github.io/projects/project-bottleneck-simulations.html</loc>
+  </url>
+  <url>
+    <loc>https://nscheuer.github.io/disclaimer.html</loc>
   </url>
 </urlset>
