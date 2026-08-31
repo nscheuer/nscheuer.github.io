@@ -10,6 +10,7 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parents[1]
 SITE_URL = "https://nscheuer.github.io/"
 SITEMAP_URL = f"{SITE_URL}sitemap.xml"
+SITEMAP_INDEX_URL = f"{SITE_URL}sitemap-index.xml"
 
 
 class LocalReferenceParser(HTMLParser):
@@ -61,16 +62,34 @@ def repo_path_from_url(value: str, source: Path) -> Path | None:
 
 
 def check_sitemap() -> None:
+    for sitemap in sorted(ROOT.glob("sitemap*.xml")):
+        ET.parse(sitemap)
+        text = sitemap.read_text(encoding="utf-8-sig")
+        if not text.lstrip().startswith("<?xml"):
+            fail(f"{sitemap.name} should start with an XML declaration")
+
     sitemap = ROOT / "sitemap.xml"
+    sitemap_index = ROOT / "sitemap-index.xml"
     if not sitemap.is_file():
         fail("sitemap.xml is missing")
+    if not sitemap_index.is_file():
+        fail("sitemap-index.xml is missing")
 
-    ET.parse(sitemap)
-    text = sitemap.read_text(encoding="utf-8-sig")
-    if not text.lstrip().startswith("<?xml"):
-        fail("sitemap.xml should start with an XML declaration")
-    if SITEMAP_URL not in (ROOT / "robots.txt").read_text(encoding="utf-8"):
+    robots = (ROOT / "robots.txt").read_text(encoding="utf-8")
+    if SITEMAP_INDEX_URL not in robots:
+        fail(f"robots.txt does not advertise {SITEMAP_INDEX_URL}")
+    if SITEMAP_URL not in robots:
         fail(f"robots.txt does not advertise {SITEMAP_URL}")
+
+    index_root = ET.parse(sitemap_index).getroot()
+    namespace = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+    for loc in index_root.findall("sm:sitemap/sm:loc", namespace):
+        if not loc.text or not loc.text.startswith(SITE_URL):
+            fail(f"sitemap-index.xml has invalid sitemap location: {loc.text!r}")
+
+        relative_path = loc.text.removeprefix(SITE_URL)
+        if "/" not in relative_path and not (ROOT / relative_path).is_file():
+            fail(f"sitemap-index.xml points to missing local sitemap: {loc.text}")
 
 
 def check_html_references() -> None:
